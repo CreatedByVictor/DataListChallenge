@@ -1,0 +1,47 @@
+<!DOCTYPE <!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title>A quiet rustling of leaves</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--Javascript-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.2/angular.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+	<!--App Code Files-->
+	<script type="text/javascript" src="app/app.module.js"></script>
+
+	<script type="text/javascript" src="app/core/core.module.js"></script>
+	<script type="text/javascript" src="app/core/core.dataservice.js"></script>
+
+	<script type="text/javascript" src="app/departments/core.departments.controller.js"></script>
+	<script type="text/javascript" src="app/app.config.js"></script>
+	<!--Bootstrap CSS Below-->
+
+	<link rel="stylesheet" href="https://bootswatch.com/darkly/bootstrap.css">
+	<!--<link rel="stylesheet" type="text/css" href="http://bootswatch.com/lumen/bootstrap.css">-->
+
+	<!-- App Css -->
+	<link rel="stylesheet" href="css/adjustments.css">
+
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Quietly sitting</a>
+			</div>
+			<button ui-sref-active="active" class="btn btn-primary navbar-btn" 
+			ui-sref="departments">Departments</button>
+			<button ui-sref-active="active" class="btn btn-primary navbar-btn" 
+			ui-sref="deadlines">Deadlines</button>
+			<button ui-sref-active="active" class="btn btn-primary navbar-btn" 
+			ui-sref="projects">Projects</button>
+		</div>
+	</nav>
+	<section>
+
+		<div ui-view></div>State:{{$state}}
+		
+	</section>
+</body>
+</html>

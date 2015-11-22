@@ -1,0 +1,18 @@
+<div>
+	<h1>
+		{{vm.pageTitle}} 
+		<small> sorted by
+			<span ng-show=" vm.sortingStateA | isState "> {{ vm.sortingNameA }} </span>
+			<span ng-show=" vm.sortingStateB | isState "> {{ vm.sortingNameB }} </span>
+		</small>
+	</h1>
+	<div>
+		Order projects by 
+		<a ng-show=" !( vm.sortingStateA | isState ) " ui-sref=" {{ vm.sortingStateA }} ">{{vm.sortingNameA}}</a>
+		<a ng-show=" !( vm.sortingStateB | isState ) " ui-sref=" {{ vm.sortingStateB }} ">{{vm.sortingNameB}}</a>.
+	</div>
+	<hr>
+	<div class="container-fluid">
+		<div ui-view="listViewArea"></div>
+	</div>
+</div>

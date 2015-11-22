@@ -28,8 +28,8 @@
 		deadlines = {
 			name:'deadlines',
 			url:'/deadlines',
-			templateUrl:'departments-noraml.html',
-			controller:'DeadlinesController',
+			templateUrl:'app/deadlines/deadlines-host.html',
+			controller:'',
 			controllerAs:'vm',
 		};
 
@@ -37,31 +37,48 @@
 			name:'deadlines.resources',
 			url:'/resources',
 			templateUrl:'',
-			controller:'deadlinesController',
+			controller:'',
 			controllerAs:'vm',
 		};
 
 		departments = {
 			name:'departments',
 			url:'/departments',
-			templateUrl:'app/departments/departments-normal.html',
-			controller:'departmentsController',
-			controllerAs:'vm',
+			views:{
+				'root':{	
+					templateUrl:'app/departments/departments-host.html',
+					controller:'departmentsController',
+					controllerAs:'vm',
+				},
+				'listViewArea@departments':{
+					templateUrl:'app/departments/departments-list.html',
+					controller:'departmentsController',
+					controllerAs:'vm',
+				}
+			}
+
 		};
 
 		departmentsResources = {
 			name:'departments.resources',
 			url:'/resources',
-			templateUrl:'',
-			controller:'departmentsController',
-			controllerAs:'vm',
+			views:{
+
+				"listViewArea":{
+					templateUrl:'app/departments/departments-list.html',
+					controller:'departmentsController',
+					controllerAs:'vm',
+				}
+
+			}
+
 		};
 
 		projects = {
 			name:'projects',
 			url:'/projects',
-			templateUrl:'',
-			controller:'ProjectsController',
+			templateUrl:'app/projects/projects-host.html',
+			controller:'',
 			controllerAs:'vm',
 		};
 
@@ -69,7 +86,7 @@
 			name:'projects.resources',
 			url:'/resources',
 			templateUrl:'',
-			controller:'ProjectsController',
+			controller:'',
 			controllerAs:'vm',
 		};
 

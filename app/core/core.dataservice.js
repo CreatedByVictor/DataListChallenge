@@ -1,51 +1,14 @@
 (function(){
 
-	angular
-		.module('core')
-		.factory("dataService",dataService);
+	
+///
 
-	dataService.$inject = [];
 
-	function dataService(){
-		var dataService = {
+"use strict";
 
-			addDeadline:addDeadline,
-			addDepartment:addDepartment,
-			addProject:addProject,
-			addResource:addResource,
+///
 
-			assignDeadlineDate:assignDeadlineDate,
-			assignDepartmentName:assignDepartmentName,
-			assignProjectDeadlineId:assignProjectDeadlineId,
-			assignProjectDepartmentId:assignProjectDepartmentId,
-			assignProjectName:assignProjectName,
-			assignResourceIdToProject:assignResourceIdToProject,
-			assignResourceName:assignResourceName,
-
-			getDeadline:getDeadline,
-			getDepartment:getDepartment,
-			getProject:getProject,
-			getResource:getResource,
-			
-			listDeadlines:listDeadlines,
-			listDepartments:listDepartments,
-			listProjects:listProjects,
-			listResources:listResources,
-			
-			rawDataset:ConvertedDataset,
-
-			removeDeadline:removeDeadline,
-			removeDepartment:removeDepartment,
-			removeProject:removeProject,
-			removeResource:removeResource,
-
-			unassignResourceIdToProject:unassignResourceIdToProject,
-
-		};
-		return dataService;
-
-	///////////////////////////////////
-
+	
 		var ConvertedDataset = {
 				"projects" :[
 					{
@@ -163,11 +126,90 @@
 					}
 				]};
 
-		/*--------------------------
-		*
-		* Some Private Helpers
-		*
-		----------------------------*/
+
+
+	angular
+		.module('core')
+		.factory("dataService",dataService);
+
+	dataService.$inject = [];
+
+	function dataService(){
+		
+
+		var dataService = {
+
+			// additions
+
+			addDeadline:addDeadline,
+			addDepartment:addDepartment,
+			addProject:addProject,
+			addResource:addResource,
+
+			// assignments
+
+			assignDeadlineDate:assignDeadlineDate,
+			assignDepartmentName:assignDepartmentName,
+			assignProjectDeadlineId:assignProjectDeadlineId,
+			assignProjectDepartmentId:assignProjectDepartmentId,
+			assignProjectName:assignProjectName,
+			assignResourceIdToProject:assignResourceIdToProject,
+			assignResourceName:assignResourceName,
+
+			// Getters
+
+			getDeadline:getDeadline,
+			getDeadlineFull:getDeadlineFull,
+
+			getDepartment:getDepartment,
+			getDepartmentFull:getDepartmentFull,
+
+			getProject:getProject,
+			getProjectFull:getProjectFull,
+			__getProjectSmart:getProjectSmart, // Expiramental
+
+			getResource:getResource,
+			getResourceFull:getResourceFull,
+
+			//Lists:
+
+			listDeadlines:listDeadlines,
+			listDeadlinesFull:listDeadlinesFull,
+
+			listDepartments:listDepartments,
+			listDepartmentsFull:listDepartmentsFull,
+
+			listProjects:listProjects,
+			
+			listResources:listResources,
+			listResourcesFull:listResourcesFull,
+
+			// Dataset:
+
+			rawDataset:ConvertedDataset,
+
+			// Removals
+
+			removeDeadline:removeDeadline,
+			removeDepartment:removeDepartment,
+			removeProject:removeProject,
+			removeResource:removeResource,
+
+			// unnassignments
+
+			unassignResourceIdToProject:unassignResourceIdToProject,
+			
+			};
+		
+		return dataService;
+
+		///////////////////////////////////
+
+	/*--------------------------
+	*
+	* Some Private Helpers
+	*
+	----------------------------*/
 		function _addOneToLargestIdIn(arrayName){
 			var output = 0;
 
@@ -230,11 +272,11 @@
 			return output;
 		};
 
-		/*------------------------
-		*
-		* Private Deadline Getters
-		*
-		--------------------------*/
+	/*------------------------
+	*
+	* Private Deadline Getters
+	*
+	--------------------------*/
 
 		function _getAllDeadlineDepartmentIds(id){
 			var output = [];
@@ -242,7 +284,7 @@
 			var deadlineProjects = _getAllDeadlineProjectIds(id);
 			if (deadlinetProjects){
 				for(var i = 0; i < deadlineProjects.length; i++){
-					output = _pushifUnique(output, getProject(deadlineProjects[i].id).departmentId);
+					output = _pushIfUnique(output, getProject(deadlineProjects[i].id).departmentId);
 				}
 			}
 
@@ -269,25 +311,25 @@
 				for (var i = 0; i < deadlineProjectIds.length; i++){
 					getProject(deadlineProjectIds[i])
 						.resources
-						.map(function(resourceId){ output = _pushifUnique(output, resourceId); })
+						.map(function(resourceId){ output = _pushIfUnique(output, resourceId); })
 				}
 			}
 			return output;
 		};
 
-		/*--------------------------
-		*
-		* Private Department Getters
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Private Department Getters
+	*
+	----------------------------*/
 
 		function _getAllDepartmentDeadlineIds(id){
 			var output = [];
 
-			var deptProjects = _getAllDepartmentProjectIds(id);
-			if (deptProjects){
-				for(var i = 0; i < deptProjects.length; i++){
-					output = _pushifUnique(output, getProject(deptProjects[i].id).deadlineId);
+			var deptProjectIds = _getAllDepartmentProjectIds(id);
+			if (deptProjectIds){
+				for(var i = 0; i < deptProjectIds.length; i++){
+					output = _pushIfUnique(output, getProject(deptProjectIds[i]).deadlineId);
 				}
 			}
 
@@ -300,7 +342,7 @@
 			if (projects){
 				for (var i = 0; i < projects.length; i++){
 					if (projects[i].departmentId == id){
-						output.push(project[i].id);
+						output.push(projects[i].id);
 					}
 				}
 			}
@@ -314,24 +356,24 @@
 				for (var i = 0; i < deptProjectIds.length; i++){
 					getProject(deptProjectIds[i])
 						.resources
-						.map(function(resourceId){ output = _pushifUnique(output, resourceId); })
+						.map(function(resourceId){ output = _pushIfUnique(output, resourceId); })
 				}
 			}
 
 			return output;
 		};
 
-		/*--------------------------
-		*
-		* Private Resource Getters
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Private Resource Getters
+	*
+	----------------------------*/
 		function _getAllResourceDeadlineIds(id){
 			var output = [];
 			var resourceProjectIds = _getAllResourceProjectIds(id);
 			for (var i = 0; i < resourceProjectIds; i++){
 				var id = resourceProjectIds[i];
-				output = _pushifUnique(output,getProject(id).deadlineId);
+				output = _pushIfUnique(output,getProject(id).deadlineId);
 			}
 			return output;
 		};
@@ -340,7 +382,7 @@
 			var resourceProjectIds = _getAllResourceProjectIds(id);
 			for (var i = 0; i < resourceProjectIds; i++){
 				var id = resourceProjectIds[i];
-				output = _pushifUnique(output,getProject(id).departmentId);
+				output = _pushIfUnique(output,getProject(id).departmentId);
 			}
 			return output;
 		};
@@ -352,25 +394,26 @@
 				projects[i].resources
 					.map(function(r_id){
 						if (r_id == id){
-							output = _pushifUnique(output, currentId);
+							output = _pushIfUnique(output, currentId);
 						}
 					});
 			}
 			return output;
 		};
 
-		/*--------------------------
-		*
-		* More Private Helpers
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* More Private Helpers
+	*
+	----------------------------*/
 		function _getById(id, arrayName){
 			var output;
 			var array = _getAllOf(arrayName);
 			if(array){
 				for (var i = 0; i < array.length; i ++){
-					if (array[i] == id){
+					if (array[i].id == id){
 						output = array[i];
+						break;
 					}
 				}
 				if (!output){
@@ -411,7 +454,7 @@
 				}
 			}
 			else{
-				console.error("_pushifUnique() Error: First Argument must be an array.");
+				console.error("_pushIfUnique() Error: First Argument must be an array.");
 			}
 			return outputArray;
 		};
@@ -424,11 +467,12 @@
 				console.error("Could not remove object with fd "+ id + " from array named " + arrayName);
 			}
 		};
-		/*--------------------------
-		*
-		* Private Additions
-		*
-		----------------------------*/
+
+	/*--------------------------
+	*
+	* Private Additions
+	*
+	----------------------------*/
 
 		function addDeadline(dateObject){
 			var newId = _addOneToLargestIdIn("deadlines");
@@ -460,6 +504,9 @@
 		function addProject(projectDataObject){
 			var newId = _addOneToLargestIdIn("projects");
 			if (newId){
+
+				//this will strip out anything else we added to the project.
+
 				var newProjectObject = {
 					"id":newId,
 					"name":projectDataObject.name,
@@ -485,11 +532,11 @@
 			return null;
 		};
 
-		/*--------------------------
-		*
-		* Public Assignments
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Public Assignments
+	*
+	----------------------------*/
 		function assignDeadlineDate(deadlineId, dateObject){
 			var index = _getIndexById(deadlineId, "deadlines");
 			if (index) {
@@ -576,47 +623,246 @@
 			}
 		};
 
-		/*--------------------------
-		*
-		* Public Getters
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Public Getters
+	*
+	----------------------------*/
 		function getDeadline(id){
-			return _getById(id, "deadlines");
+			var deadline = _getById(id,"deadlines");
+			deadline.timestamp = Date.parse(deadline.date);
+
+			//Added a timestamp that is generated from, but not saved to the dataset.
+
+			return deadline;
+		};
+		function getDeadlineFull(id){
+			var oldDeadline = getDeadline(id);
+
+			var projectIds = _getAllDeadlineProjectIds(id);
+			var departmentIds = _getAllDeadlineDepartmentIds(id);
+			var resourceIds = _getAllDeadlineResourceIds(id);
+
+			var projects = projectIds.map(function(id){ return getProject(id); });
+			var departments = departmentIds.map(function(id){ return getDepartment(id); });
+			var resources = resourceIds.map(function(id){ return getResource(id); });
+
+			var newDeadline = {
+				"id": oldDeadline.id,
+				"date": oldDeadline.date,
+				"timestamp": oldDeadline.timestamp,
+				"projectIds":projectIds,
+				"departmentIds": departmentIds,
+				"resourceIds": resourceIds,
+				"projects": projects,
+				"resources": resources,
+				"departments": departments,
+			}
+
+			return newDeadline;
 		};
 		function getDepartment(id){
 			return _getById(id, "departments");
 		};
+		function getDepartmentFull(id){
+			var oldDepartment = getDepartment(id);
+
+			var deptProjectIds = _getAllDepartmentProjectIds(id);
+			var deptResourceIds = _getAllDepartmentResourceIds(id);
+			var deptDeadlineIds = _getAllDepartmentDeadlineIds(id);
+
+			var projects = deptProjectIds.map(function(id){ return getProject(id); });
+			var resources = deptResourceIds.map(function(id){ return getResource(id); });
+			var deadlines = deptDeadlineIds.map(function(id){ return getDeadline(id); });
+
+			var newDept = {
+				"id": oldDepartment.id,
+				"name": oldDepartment.name,
+
+				"projectIds":deptProjectIds,
+				"projects": projects,
+
+				"resourceIds":deptResourceIds,
+				"resources": resources,
+
+				"deadlineIds":deptDeadlineIds,
+				"deadlines": deadlines,
+				};
+
+
+
+			return newDept;
+		};
 		function getProject(id){
 			return _getById(id, "projects");
+		};
+		function getProjectFull(id){
+			var oldProject = getProject(id);
+
+			var resourceObjects = oldProject.resources.map(function(id){ return getResource(id); });
+			var departmentObject = getDepartment(oldProject.departmentId);
+			var deadlineObject = getDeadline(oldProject.deadlineId);
+
+			var newProject = {
+				"id": oldProject.id,
+				"name": oldProject.name,
+
+				"resources": oldProject.resources,
+				"resource": resourceObjects,
+
+				"departmentId": oldProject.departmentId,
+				"department": oldProject.departement,
+
+				"deadlineId": oldProject.deadlineId,
+				"deadline": deadlineObject
+			}
+
+			return newProject;
+
+		};
+		function getProjectSmart(id){ // Warning: Highly Expiramental.
+
+			var oldProject = getProject(id);
+
+			var newProject = oldProject;
+
+			Object.defineProperty(newProject, "resources",{
+				get:function(){
+
+					ConvertedDataset["projects"][this.myIndex].resources = []; //Empty it.
+
+					return this.resources.map(function(id){ return getResource(id); });
+
+				},
+				set:function(newResourceIdArray){
+					for (var i = 0; i < newResourceIdArray.length; i++){
+						assignResourceIdToProject(newResourceIdArray[i]);
+					}
+				}
+			});
+			Object.defineProperty(newProject, "timestamp",{ 
+				get:function(){
+
+					//This is get only.
+
+					return getDeadline(this.deadlineId).timestamp;
+
+				}
+			});
+			Object.defineProperty(newProject, "department",{
+				get:function(){
+
+					return getDepartment(this.departmentId);
+
+				},
+				set:function(departmentId){
+
+					assignProjectDepartmentId(this.id, departmentId);
+
+				}
+			});
+			Object.defineProperty(newProject, "deadline",{
+				get:function(){
+
+					return getDeadline(this.deadlineId);
+
+				},
+				set:function(newDeadlineId){
+
+					assignProjectDeadlineId(this.id, newDeadlineId);
+
+				}
+			});
+			Object.defineProperty(newProject, "myIndex",{
+				get:function(){
+					return _getById(this.id, "projects");
+				}
+			});
+
+			return newProject;
+
 		};
 		function getResource(id){
 			return _getById(id, "resources");
 		};
+		function getResourceFull(id){
+			var oldResource = getResource(id);
 
-		/*--------------------------
-		*
-		* Public Listers
-		*
-		----------------------------*/
+			var projectIds = _getAllResourceProjectIds(id);
+			var departmentIds = _getAllResourceDepartmentIds(id);
+			var deadlineIds = _getAllResourceDeadlineIds(id);
+
+			var projects = projectIds.map(function(id){ return getProject(id); });
+			var departments = departmentIds.map(function(id){ return getDepartment(id); });
+			var deadlines = deadlineIds.map(function(id){ return getDeadline(id); });
+
+			var newResource = {
+				"id": oldResource.id,
+				"name": oldResource.name,
+				"projectIds": projectIds,
+				"projects":projects,
+				"departmentIds":departmentIds,
+				"departments":departments,
+				"deadlineIds":deadlineIds,
+				"deadlines":deadlines,
+			};
+
+			return newResource;
+		};
+
+	/*--------------------------
+	*
+	* Public Listers
+	*
+	----------------------------*/
 		function listDeadlines(){
 			return ConvertedDataset['deadlines'];
 		};
-		function listDepartments(){
-			return ConvertedDataset["departments"];
+		function listDeadlinesFull(){
+			var output = [];
+			var deadlines = listDeadlines();
+			for (var i = 0; i < deadlines.length; i++){
+				var id = deadlines[i].id;
+				output.push(getDeadlineFull(id));
+			};
+			return output;
 		};
+
+		function listDepartments(){
+			return ConvertedDataset['departments'];
+		};
+		function listDepartmentsFull(){
+			var output = [];
+			var departments = listDepartments();
+			for(var i = 0; i < departments.length; i++){
+				var id = departments[i].id;
+				output.push(getDepartmentFull(id));
+			}
+			return output;
+		};
+
 		function listProjects(){
 			return ConvertedDataset['projects'];
 		};
+
 		function listResources(){
 			return ConvertedDataset['resources'];
 		};
+		function listResourcesFull(){
+			var output = [];
+			var resources = listResources();
+			for (var i = 0; i < resourcse.length; i++){
+				var id = resources[i].id;
+				output.push(getResourceFull(id));
+			}
+			return output;
+		};
 
-		/*--------------------------
-		*
-		* Public Removals
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Public Removals
+	*
+	----------------------------*/
 		function removeDeadline(id){ 
 			var projectIdsWithDeadline = _getAllDeadlineProjectIds(id);
 			if (projectIdsWithDeadline.length > 0){
@@ -667,11 +913,11 @@
 			}
 		};
 
-		/*--------------------------
-		*
-		* Public Unassignments
-		*
-		----------------------------*/
+	/*--------------------------
+	*
+	* Public Unassignments
+	*
+	----------------------------*/
 		function unassignResourceIdToProject(projectId, resourceId){
 			var index = _getIndexById(projectId,"projects");
 			var project = getProject(projectId);
@@ -685,7 +931,6 @@
 			};
 			ConvertedDataset["projects"][index].resources.splice(rec_index,1);
 		};
-
-	}
-
-});
+	};
+///	
+})()

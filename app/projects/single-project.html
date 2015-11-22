@@ -1,0 +1,18 @@
+<div>
+	<h2>{{vm.project.name}} <small>project</small></h2>
+	<ul class="list-unstyled">
+		<li><span class="text-muted">Due:</span> {{vm.getDeadline(vm.project.deadlineId).date}}</li>
+		<li><span class="text-muted">Dept:</span> {{vm.getDepartment(vm.project.departmentId).name}}</li>
+		<li>
+			<span class="text-muted">Resources</span>
+			<ul>
+				<li ng-repeat="resourceId in vm.project.resources">
+					{{vm.getResource(resourceId).name}}
+				</li>
+				<li ng-show="project.resources.length == 0">
+					<em>No resources assigned to this project.</em>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

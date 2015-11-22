@@ -180,6 +180,7 @@
 			listDepartmentsFull:listDepartmentsFull,
 
 			listProjects:listProjects,
+			listProjectsFull:listProjectsFull,
 			
 			listResources:listResources,
 			listResourcesFull:listResourcesFull,
@@ -281,10 +282,10 @@
 		function _getAllDeadlineDepartmentIds(id){
 			var output = [];
 
-			var deadlineProjects = _getAllDeadlineProjectIds(id);
-			if (deadlinetProjects){
-				for(var i = 0; i < deadlineProjects.length; i++){
-					output = _pushIfUnique(output, getProject(deadlineProjects[i].id).departmentId);
+			var deadlineProjectIds = _getAllDeadlineProjectIds(id);
+			if (deadlineProjectIds){
+				for(var i = 0; i < deadlineProjectIds.length; i++){
+					output = _pushIfUnique(output, getProject(deadlineProjectIds[i]).departmentId);
 				}
 			}
 
@@ -297,7 +298,7 @@
 			if (projects){
 				for (var i = 0; i < projects.length; i++){
 					if (projects[i].deadlineId == id){
-						output.push(project[i].id);
+						output.push(projects[i].id);
 					}
 				}
 			}
@@ -843,6 +844,11 @@
 
 		function listProjects(){
 			return ConvertedDataset['projects'];
+		};
+		function listProjectsFull(){
+			return listProjects().map(function(project){
+				return getProjectFull(project.id)
+			});
 		};
 
 		function listResources(){

@@ -1,12 +1,12 @@
 (function(){
 
 	angular
-		.module('core')
-		.controller('departmentsController', departmentsController);
+		.module('departments')
+		.controller('departmentsListController', departmentsListController);
 
-	departmentsController.$inject = ['dataService', '$state'];
+	departmentsListController.$inject = ['dataService', '$state'];
 
-	function departmentsController(dataService, $state){
+	function departmentsListController(dataService, $state){
 		var vm = this;
 
 		vm.departments = dataService.listDepartmentsFull();
@@ -36,10 +36,6 @@
 			return dataService.getDeadline(id);
 		};
 
-		function getDepartment(id){
-			return dataService.getDepartment(id);
-		};
-
 		function getProject(id){
 			return dataService.getProject(id);
 		};
@@ -49,9 +45,10 @@
 		};
 
 		function projectSortPredicate(inputProject){
-			if ($state.is('departments')){
+			if ($state.is(vm.sortingStateA)){
 				return dataService.getDeadline(inputProject.deadlineId).timestamp;
-			} else { 
+			}
+			else if($state.is(vm.sortingStateB)) { 
 				return -inputProject.resources.length;
 			}
 		};

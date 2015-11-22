@@ -1,0 +1,31 @@
+<div>
+	<ul class="list-unstyled">
+		<li ng-repeat="project in vm.projects | orderBy : vm.projectSortPredicate ">
+			<h2><a ui-sref=".project({'id':project.id})">{{project.name}}</a> <small>project</small></h2>
+			<ul>
+				<li>
+					<ul>
+						<li>
+							<span class="text-muted">Due:</span>
+							{{vm.getDeadline(project.deadlineId).date}}
+						</li>
+						<li>
+							<span class="text-muted">Dept:</span> 
+							{{vm.getDepartment(project.departmentId).name}}
+						</li>
+						<li ng-show = " vm.sortingStateB | isState">
+							<span class="text-muted">Total Resources:</span> {{project.resources.length}}
+						</li>
+						<li ng-show=" vm.sortingStateA | isState " >
+							<span class="text-muted">Resources:</span>
+							<ul>
+								<li ng-repeat="r_id in project.resources">{{ vm.getResource(r_id).name }}</li>
+								<li ng-show="project.resources.length == 0"><em>No resources assigned to this project.</em></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

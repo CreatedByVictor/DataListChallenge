@@ -5,6 +5,9 @@
 	'ui.router', 
 	'ui.bootstrap',
 	'core',
+	'deadlines',
+	'departments',
+	'projects',
 
 		]);
 

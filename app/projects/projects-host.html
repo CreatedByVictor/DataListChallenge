@@ -1,9 +1,0 @@
-<div>
-	<h1>All Projects <small>Sorted By <span ng-hide="'departments.resources' | isState"> Deadline Date </span><span ng-hide="'departments' | isState">Resource Count</span></small></h1>
-	<div>
-		View By <a ng-show="'departments' | isState" ui-sref=".resources">Resource Count</a><a ng-show="'departments.resources' | isState" ui-sref="departments">Deadline Date</a>.
-	</div>
-	<div class="container-fluid">
-		<div ng-view="listViewArea"></div>
-	</div>
-</div>

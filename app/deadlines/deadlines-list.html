@@ -1,22 +1,29 @@
 <div>
 	<ul class="list-unstyled">
 		<li ng-repeat="deadline in vm.deadlines | orderBy : 'timestamp' ">
-			<h2>{{deadline.date}} <small></small></h2>
+			<h2>{{deadline.date || "(Unspecified Deadline)"}} <small></small></h2>
 			<ul ng-repeat="project in deadline.projects | orderBy : vm.projectSortPredicate : false" >
 				<li>
-					<h4><span class="text-muted">Project:</span> <a ui-sref=".project({'id':project.id})">{{project.name}}</a></h4>
+					<h4>
+						<span class="text-muted">
+							Project:
+						</span>
+						<a ui-sref=".project({'id':project.id})">
+							{{project.name || "(Untitled Project)"}}
+						</a>
+					</h4>
 					<ul>
 						<li>
 							<span class="text-muted">Dept:</span> 
-							{{vm.getDepartment(project.departmentId).name}}
+							{{vm.getDepartment(project.departmentId).name || "(Unspecified Department)" }}
 						</li>
-						<li ng-show = " vm.sortingStateB | isState">
-							<span class="text-muted">Total Resources:</span> {{project.resources.length}}
+						<li ng-show = " vm.sortingStateB | isState ">
+							<span class="text-muted">Total Resources:</span> {{project.resources.length || "None" }}
 						</li>
 						<li ng-show=" vm.sortingStateA | isState " >
 							<span class="text-muted">Resources:</span>
 							<ul>
-								<li ng-repeat="r_id in project.resources">{{ vm.getResource(r_id).name }}</li>
+								<li ng-repeat="r_id in project.resources">{{ vm.getResource(r_id).name || "Unnamed Resource" }}</li>
 								<li ng-show="project.resources.length == 0"><em>No resources assigned to this project.</em></li>
 							</ul>
 						</li>

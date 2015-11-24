@@ -1,13 +1,13 @@
 <div>
 	<ul class="list-unstyled">
 		<li ng-repeat="project in vm.projects | orderBy : vm.projectSortPredicate ">
-			<h2><a ui-sref=".project({'id':project.id})">{{project.name}}</a> <small>project</small></h2>
+			<h2><a ui-sref=".project({'id':project.id})">{{project.name || "(Untitled Project)"}}</a> <small>project</small></h2>
 			<ul>
 				<li>
 					<ul>
 						<li>
 							<span class="text-muted">Due:</span>
-							{{vm.getDeadline(project.deadlineId).date}}
+							{{vm.getDeadline(project.deadlineId).date || "(Unspecified Date)"}}
 						</li>
 						<li>
 							<span class="text-muted">Dept:</span> 

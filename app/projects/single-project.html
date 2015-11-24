@@ -1,4 +1,4 @@
-<div ng-init="vm.edit(vm.project)">
+<div>
 	<h2>{{vm.project.name || "(Untitled Project)"}} <small>project</small> <small>(<a ng-click="vm.edit(vm.project)">edit</a>)</small></h2>
 	<ul class="list-unstyled">
 		<li><span class="text-muted">Due:</span> {{vm.getDeadline(vm.project.deadlineId).date || "(Undefined Date)" }}</li>

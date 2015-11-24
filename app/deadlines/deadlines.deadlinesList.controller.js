@@ -10,25 +10,16 @@
 		var vm = this;
 
 		vm.deadlines = dataService.listDeadlinesFull();
-		
 		vm.getDepartment = getDepartment;
-
 		vm.getProject = getProject;
-		
 		vm.getResource = getResource;
-
 		vm.projectSortPredicate = projectSortPredicate;
 
 		vm.pageTitle = "Deadline Projects";
-
-		vm.sortingStateA = "deadlines"; // department name View
-		vm.sortingStateB = "deadlines.resources";
-
 		vm.sortingNameA = "Department Name";
 		vm.sortingNameB = "Resource Count"; 
-
-		vm.subtitleA = "sorting by Department Name.";
-		vm.subtitleB = "sorting by Resource Count.";
+		vm.sortingStateA = "deadlines"; // department name View
+		vm.sortingStateB = "deadlines.resources";
 
 		///////////////////////////
 

@@ -4,9 +4,9 @@
 		.module('projects')
 		.controller('singleProjectController', singleProjectController);
 
-	singleProjectController.$inject = ['dataService', '$state', '$stateParams'];
+	singleProjectController.$inject = ['dataService', '$state', '$stateParams', 'modalService'];
 
-	function singleProjectController(dataService, $state, $stateParams){
+	function singleProjectController(dataService, $state, $stateParams, modalService){
 		var vm = this;
 
 		vm.project = dataService.getProjectFull($stateParams.id);
@@ -19,18 +19,9 @@
 
 		vm.hideSubtitle = true;
 
+		vm.edit = modalService.openProjectEditModal;
+
 		vm.projectSortPredicate = projectSortPredicate;
-
-		vm.pageTitle = vm.project.name;
-
-		vm.sortingStateA = ""; // deadline View
-		vm.sortingStateB = "";
-
-		vm.sortingNameA = "";
-		vm.sortingNameB = "Resource Count"; 
-
-		vm.subtitleA = "sorting by Deadline Date.";
-		vm.subtitleB = "sorting by Resource Count.";
 
 		///////////////////////////
 

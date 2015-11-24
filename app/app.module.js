@@ -8,7 +8,8 @@
 	'deadlines',
 	'departments',
 	'projects',
-
+	'modals',
+	'alerts'
 		]);
 
 

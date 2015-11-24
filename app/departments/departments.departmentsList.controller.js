@@ -27,9 +27,6 @@
 		vm.sortingNameA = "Deadline Date";
 		vm.sortingNameB = "Resource Count"; 
 
-		vm.subtitleA = "sorting by Deadline Date.";
-		vm.subtitleB = "sorting by Resource Count.";
-
 		///////////////////////////
 
 		function getDeadline(id){

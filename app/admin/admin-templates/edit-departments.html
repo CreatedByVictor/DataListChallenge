@@ -12,8 +12,8 @@
 	  			<th class="editCol"></th>
 		    	<th class="idCol">ID</th>
 		    	<th>Name</th>
-		    	<th>Deadline Count</th>
 		    	<th>Project Count</th>
+		    	<th>Deadline Count</th>
 		    	<th>Resource Count</th>
 		    </tr>
     	</thead>
@@ -22,8 +22,8 @@
 	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
 		    	<td class="idCol">{{department.id || "(ID Error)"}}</td>
 		    	<td>{{department.name || '(Unnamed Department)'}}</td>
-		    	<td>{{vm.getDepartmentFull(department.id).deadlines.length || "-"}}</td>
 		    	<td>{{vm.getDepartmentFull(department.id).projects.length || "-"}}</td>
+		    	<td>{{vm.getDepartmentFull(department.id).deadlines.length || "-"}}</td>
 		    	<td>{{vm.getDepartmentFull(department.id).resources.length || "-"}}</td>
 	    	</tr>
     	</tbody>

@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
-  	<button class="btn btn-success btn-xs">Create New Resource</button>
+  	<button class="btn btn-success btn-xs" ng-click="vm.newResource()">Create New Resource</button>
   </div>
 
   <!-- Table -->
@@ -19,12 +19,15 @@
     	</thead>
     	<tbody>
 	    	<tr ng-repeat="resource in vm.listResources()">
-	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
+	    		<td class="editCol"><button class="btn btn-info btn-xs" ng-click="vm.editResource(resource)">Edit</button></td>
 		    	<td class="idCol">{{resource.id || "(ID Error)"}}</td>
 		    	<td>{{resource.name || "(Unnamed Resource)"}}</td>
 		    	<td>{{vm.getResourceFull(resource.id).projectIds.length || "-"}}</td>
 		    	<td>{{vm.getResourceFull(resource.id).departmentIds.length || "-"}}</td>
 		    	<td>{{vm.getResourceFull(resource.id).deadlineIds.length || "-"}}</td>
+	    	</tr>
+	    	<tr ng-show="vm.listResources().length == 0">
+	    		<td colspan="6" align="center"><em>No Resources In Database</em></td>
 	    	</tr>
     	</tbody>
    	</table>

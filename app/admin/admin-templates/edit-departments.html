@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
-  	<button class="btn btn-success btn-xs">Create New Department</button>
+  	<button class="btn btn-success btn-xs" ng-click="vm.newDepartment()">Create New Department</button>
   </div>
 
   <!-- Table -->
@@ -19,12 +19,17 @@
     	</thead>
     	<tbody>
 	    	<tr ng-repeat="department in vm.listDepartments()">
-	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
+	    		<td class="editCol">
+	    			<button class="btn btn-info btn-xs" ng-click="vm.editDepartment(department)">Edit</button>
+	    		</td>
 		    	<td class="idCol">{{department.id || "(ID Error)"}}</td>
 		    	<td>{{department.name || '(Unnamed Department)'}}</td>
 		    	<td>{{vm.getDepartmentFull(department.id).projects.length || "-"}}</td>
 		    	<td>{{vm.getDepartmentFull(department.id).deadlines.length || "-"}}</td>
 		    	<td>{{vm.getDepartmentFull(department.id).resources.length || "-"}}</td>
+	    	</tr>
+	    	<tr ng-show="vm.listDepartments().length == 0">
+	    		<td colspan="6" align="center"><em>No Departments In Database</em></td>
 	    	</tr>
     	</tbody>
    	</table>

@@ -149,7 +149,7 @@
         function _addOneToLargestIdIn(arrayName) {
             var output = 0;
             var arrayData = _getAllOf(arrayName);
-            if (arrayData) {
+            if (arrayData.length >= 1) {
                 output = arrayData.reduce(function(lastValue, thisValue) {
                     if (lastValue.id > thisValue.id) {
                         return lastValue.id;

@@ -11,7 +11,10 @@
     function adminPageController(dataService, modalService) {
         var vm = this;
 
+        vm.editDeadline         = editDeadline;
+        vm.editDepartment       = editDepartment;
         vm.editProject          = editProject;
+        vm.editResource         = editResource;
 
         vm.getDeadline 			= getDeadline;
         vm.getDeadlineFull		= getDeadlineFull;
@@ -31,12 +34,23 @@
         vm.listResources 		= listResources;
         vm.listResourcesFull 	= listResourcesFull;
 
+        vm.newDeadline          = newDeadline;
+        vm.newDepartment        = newDepartment;
         vm.newProject           = newProject;
+        vm.newResource          = newResource;
 
         ////////////////
-
+        function editDeadline(deadline){
+            modalService.openDeadlineEditModal(deadline);
+        };
+        function editDepartment(department){
+            modalService.openDepartmentEditModal(department);
+        };
         function editProject(project){
-            modalService.openProjectEditModal(project)
+            modalService.openProjectEditModal(project);
+        };
+        function editResource(resource){
+            modalService.openResourceEditModal(resource);
         };
 
         function getDeadline(id){
@@ -89,8 +103,17 @@
         	return dataService.listResourcesFull();
         };
 
+        function newDeadline(){
+            return modalService.newDeadlineModal();
+        };
+        function newDepartment(){
+            return modalService.newDepartment();
+        };
         function newProject(){
             return modalService.newProjectModal();
+        };
+        function newResource(){
+            return modalService.newResourceModal();
         };
 
     }

@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
 	<div class="panel-heading">
-		<button class="btn btn-success btn-xs">Create New Deadline</button>
+		<button class="btn btn-success btn-xs" ng-click="vm.newDeadline()">Create New Deadline</button>
 	</div>
 
   <!-- Table -->
@@ -19,12 +19,15 @@
     	</thead>
     	<tbody>
 	    	<tr ng-repeat="deadline in vm.listDeadlines()">
-	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
+	    		<td class="editCol"><button class="btn btn-info btn-xs" ng-click="vm.editDeadline(deadline)">Edit</button></td>
 		    	<td class="idCol">{{deadline.id || "(ID Error)"}}</td>
 		    	<td>{{deadline.date || "Error"}}</td>
 		    	<td>{{vm.getDeadlineFull(deadline.id).projectIds.length || "-"}}</td>
 		    	<td>{{vm.getDeadlineFull(deadline.id).departmentIds.length || '-'}}</td>
 		    	<td>{{vm.getDeadlineFull(deadline.id).resourceIds.length || '-'}}</td>
+	    	</tr>
+	    	<tr ng-show="vm.listDeadlines().length == 0">
+	    		<td colspan="6" align="center"><em>No Deadlines In Database</em></td>
 	    	</tr>
     	</tbody>
    	</table>

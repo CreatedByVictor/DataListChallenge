@@ -1,0 +1,28 @@
+<div>
+	<div class="modal-header">
+		<h4 class="modal-title"><small> Editing: </small>{{vm.department.name || "(Unnamed Department)"}}</h4>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="DepartmentTitleEntry" class="col-sm-2 control-label">Name</label>
+					<div class="col-sm-10">
+						<input type="text" ng-model="vm.department.name" class="form-control" id="DepartmentTitleEntry" placeholder="Department Name">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-click="vm.sendOk(vm.department)">
+			Save Changes
+		</button>
+		<button class="btn btn-warning" ng-click="vm.sendCancel()">
+			Cancel
+		</button>
+		<button class="btn btn-danger" ng-click="vm.sendDelete()">
+			Delete
+		</button>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+<div>
+	<div class="modal-header">
+		<h4 class="modal-title"><small> Editing: </small>{{vm.deadline.name || "(Unnamed Resource)"}}</h4>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+		    <div style="display:inline-block; min-height:290px;">
+		    	<uib-datepicker ng-model="vm.deadline.timeline" min-date="minDate" show-weeks="false" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+		    </div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-click="vm.sendOk(vm.resource)">
+			Save Changes
+		</button>
+		<button class="btn btn-warning" ng-click="vm.sendCancel()">
+			Cancel
+		</button>
+		<button class="btn btn-danger" ng-click="vm.sendDelete()">
+			Delete
+		</button>
+	</div>
+</div>

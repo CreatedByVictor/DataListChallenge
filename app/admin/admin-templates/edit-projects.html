@@ -26,6 +26,9 @@
 		    	<td>{{vm.getDepartment(project.departmentId).name || "(Unspecified Department)"}}</td>
 		    	<td>{{project.resources.length || "No Resources"}}</td>
 	    	</tr>
+	    	<tr ng-show="vm.listProjects().length == 0">
+	    		<td colspan="6" align="center"><em>No Projects In Database</em></td>
+	    	</tr>
     	</tbody>
    	</table>
    	</div>

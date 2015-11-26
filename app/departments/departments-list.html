@@ -1,7 +1,10 @@
 <div>
 	<ul class="list-unstyled">
 		<li ng-repeat="dept in vm.departments | orderBy : 'name ' ">
-			<h2>{{dept.name || "(Unspecified)"}} <small>department</small></h2>
+			<h2>
+				<core-department-name id="dept.id"></core-department-name>
+				<small> department</small>
+			</h2>
 			<ul ng-repeat="project in dept.projects | orderBy : vm.projectSortPredicate : false" >
 				<li>
 					<h4>
@@ -9,31 +12,21 @@
 							Project:
 						</span> 
 						<a ui-sref=".project({'id':project.id})">
-							{{project.name || "(Untitled Project)"}}
+							<core-project-name id="project.id"></core-project-name>
 						</a>
 					</h4>
 					<ul>
 						<li>
-							<span class="text-muted">Due:</span> 
-							{{vm.getDeadline(project.deadlineId).date || "(Unspecified Date)"}}
+							<span class="text-muted">Due: </span> 
+							<core-deadline-date id="project.deadlineId"></core-deadline-date>
 						</li>
-						<li ng-show = " vm.sortingStateB | isState">
-							<span class="text-muted">
-								Total Resources:
-							</span> 
-								{{project.resources.length || "None"}}
-						</li>
-						<li ng-show=" vm.sortingStateA | isState " >
-							<span class="text-muted">Resources:</span>
-							<ul>
-								<li ng-repeat="r_id in project.resources">
-									{{ vm.getResource(r_id).name || "(Unnamed Resource)" }}
-								</li>
-								<li ng-show="project.resources.length == 0">
-									<em>No resources assigned to this project.</em>
-								</li>
-							</ul>
-						</li>
+						<div>
+							<core-resource-list
+								resources="project.resources" 
+								is-list  = "vm.sortingStateA | isState" 
+								is-count = "vm.sortingStateB | isState">
+							</core-resource-list>
+						</div>
 					</ul>
 				</li>
 			</ul>

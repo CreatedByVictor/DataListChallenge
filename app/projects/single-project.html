@@ -1,8 +1,17 @@
 <div>
-	<h2>{{vm.project.name || "(Untitled Project)"}} <small>project</small> <small>(<a class="useful-link" ng-click="vm.edit(vm.project)">edit</a>)</small></h2>
+	<h2>
+		{{vm.project.name}}
+		<small>project</small> 
+		<small>(<a class="useful-link" ng-click="vm.edit(vm.project, '^')">edit</a>)</small>
+	</h2>
 	<ul class="list-unstyled">
-		<li><span class="text-muted">Due:</span> {{vm.getDeadline(vm.project.deadlineId).date || "(Undefined Date)" }}</li>
-		<li><span class="text-muted">Dept:</span> {{vm.getDepartment(vm.project.departmentId).name || "(Undefined Department)" }}</li>
+		<li><span class="text-muted">Deadline: </span>
+			{{vm.getDeadline(vm.project.deadlineId).date}}
+		</li>
+		<li>
+			<span class="text-muted">Dept:</span> 
+			{{vm.getDepartment(vm.project.departmentId).name || "(Undefined Department)" }}
+		</li>
 		<li>
 			<span class="text-muted">Resources</span>
 			<ul>

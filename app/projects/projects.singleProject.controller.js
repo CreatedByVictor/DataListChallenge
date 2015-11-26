@@ -8,9 +8,9 @@
 
 	function singleProjectController(dataService, $state, $stateParams, modalService){
 		var vm = this;
-
-		vm.project = dataService.getProjectFull($stateParams.id);
 		
+		vm.edit = modalService.openProjectEditModal;
+
 		vm.getDeadline = getDeadline;
 
 		vm.getDepartment = getDepartment;
@@ -19,9 +19,11 @@
 
 		vm.hideSubtitle = true;
 
-		vm.edit = modalService.openProjectEditModal;
+		vm.project = dataService.getProjectFull($stateParams.id);
 
 		vm.projectSortPredicate = projectSortPredicate;
+
+		vm.state = $state;
 
 		///////////////////////////
 

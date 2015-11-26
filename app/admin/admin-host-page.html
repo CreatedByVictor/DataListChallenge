@@ -1,0 +1,14 @@
+<div>
+	<h1>Administration Area</h1>
+	<div>Here you can add, edit, and remove various parts of the dataset.</div>
+	<hr>
+</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" ui-sref-active="active"><a ui-sref=".editProjects">Projects <span class="badge">{{vm.listProjects().length}}</span> </a></li>
+  <li role="presentation" ui-sref-active="active"><a ui-sref=".editDepartments">Departments <span class="badge">{{vm.listDepartments().length}}</span> </a></li>
+  <li role="presentation" ui-sref-active="active"><a ui-sref=".editDeadlines">Deadlines <span class="badge">{{vm.listDeadlines().length}}</span> </a></li>
+  <li role="presentation" ui-sref-active="active"><a ui-sref=".editResources">Resources <span class="badge">{{vm.listResources().length}}</span> </a></li>
+</ul>
+<div>
+	<div ui-view="adminView"></div>
+</div>

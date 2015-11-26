@@ -35,7 +35,8 @@
 			return dataService.getResource(id);
 		};
 
-		function projectSortPredicate(inputProject){
+		function projectSortPredicate(projectId){
+			var inputProject = dataService.getProject(projectId);
 			if ($state.is(vm.sortingStateA)){
 				return dataService.getDepartment(inputProject.departmentId).name;
 			} 

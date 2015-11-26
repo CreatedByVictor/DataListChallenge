@@ -9,7 +9,8 @@
 	'departments',
 	'projects',
 	'modals',
-	'alerts'
+	'alerts',
+	'admin'
 		]);
 
 

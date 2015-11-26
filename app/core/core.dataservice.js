@@ -178,37 +178,32 @@
         function _getAllDeadlineDepartmentIds(id) {
             var output = [];
             var deadlineProjectIds = _getAllDeadlineProjectIds(id);
-            if (deadlineProjectIds) {
-                for (var i = 0; i < deadlineProjectIds.length; i++) {
-                    output = Util.pushIfUnique(output, getProject(deadlineProjectIds[i]).departmentId);
-                }
-            }
+            deadlineProjectIds.map(function(projectId){
+                output = Util.pushIfUnique(output, getProject(projectId).departmentId);
+            });
             return output;
         };
 
         function _getAllDeadlineProjectIds(id) {
             var output = [];
             var projects = listProjects();
-            if (projects) {
-                for (var i = 0; i < projects.length; i++) {
-                    if (projects[i].deadlineId == id) {
-                        output.push(projects[i].id);
-                    }
+            projects.map(function(projectObject){
+                var projectId = projectObject.id;
+                if (projectObject.deadlineId == id){
+                    output = Util.pushIfUnique(output, projectId);
                 }
-            }
+            });
             return output;
         };
 
         function _getAllDeadlineResourceIds(id) {
             var output = [];
             var deadlineProjectIds = _getAllDeadlineProjectIds(id);
-            if (deadlineProjectIds) {
-                for (var i = 0; i < deadlineProjectIds.length; i++) {
-                    getProject(deadlineProjectIds[i]).resources.map(function(resourceId) {
-                        output = Util.pushIfUnique(output, resourceId);
-                    })
-                }
-            }
+            deadlineProjectIds.map(function(projectId){
+                getProject(projectId).resources.map(function(resourceId){
+                    output = Util.pushIfUnique(output, resourceId);
+                });
+            });
             return output;
         };
         /*--------------------------
@@ -260,34 +255,32 @@
         function _getAllResourceDeadlineIds(id) {
             var output = [];
             var resourceProjectIds = _getAllResourceProjectIds(id);
-            for (var i = 0; i < resourceProjectIds; i++) {
-                var id = resourceProjectIds[i];
-                output = Util.pushIfUnique(output, getProject(id).deadlineId);
-            }
+            resourceProjectIds.map(function(projectId){
+                output = Util.pushIfUnique(output, getProject(projectId).deadlineId);
+            });
             return output;
         };
 
         function _getAllResourceDepartmentIds(id) {
             var output = [];
             var resourceProjectIds = _getAllResourceProjectIds(id);
-            for (var i = 0; i < resourceProjectIds; i++) {
-                var id = resourceProjectIds[i];
-                output = Util.pushIfUnique(output, getProject(id).departmentId);
-            }
+            resourceProjectIds.map(function(projectId){
+                output = Util.pushIfUnique(output, getProject(projectId).departmentId)
+            })
             return output;
         };
 
         function _getAllResourceProjectIds(id) {
             var output = [];
             var projects = listProjects();
-            for (var i = 0; i < projects.length; i++) {
-                var currentId = projects[i].id;
-                projects[i].resources.map(function(r_id) {
-                    if (r_id == id) {
-                        output = Util.pushIfUnique(output, currentId);
+            projects.map(function(projectObject){
+                var projectId = projectObject.id;
+                projectObject.resources.map(function(resourceId){
+                    if (resourceId == id){
+                        output = Util.pushIfUnique(output, projectId);
                     }
                 });
-            }
+            });
             return output;
         };
         /*--------------------------
@@ -317,7 +310,7 @@
             //id = parseInt(id);
             var array = _getAllOf(arrayName);
             for (var i = 0; i < array.length; i++) {
-                if (array[i].id == id) {
+                if (array[i].id == parseInt(id)) {
                     output = i;
                     break;
                 }
@@ -329,11 +322,12 @@
         };
 
         function _removeFrom(id, arrayName) {
-            var index = _getById(id, arrayName);
-            if (index) {
+            var index = _getIndexById(id, arrayName);
+            if (index >= 0) {
                 ConvertedDataset[arrayName].splice(index, 1);
+                //$log.info("Index Deleted:", index, "Id:", id,  "ArrayName:", arrayName);
             } else {
-                $log.error("Could not remove object with fd " + id + " from array named " + arrayName);
+                $log.error("Could not remove object with id " + id + " from array named " + arrayName);
             }
         };
         /*--------------------------
@@ -499,62 +493,77 @@
             var deadline = _getById(id, "deadlines");
             //deadline.timestamp = Date.parse(deadline.date);
             //Added a timestamp that is generated from, but not saved to the dataset.
-            var newDeadline = {
-                    "id":deadline.id,
-                    "_dateHolder":deadline.date,
-                    "date":deadline.date,
-                    "_timestampHolder":undefined,
-                    "timestamp":undefined,
-                    "_dateObjectHolder":undefined
-            }
-            Object.defineProperty(newDeadline,"timestamp",{
-            	get:function(){
-            		if (angular.isUndefined(this._dateHolder)){
-            			this._dateHolder = this.date;
-            		}
-            		this._timestampHolder = Date.parse(this._dateHolder);
-            		return this._timestampHolder;
-            	},
-            	set:function(input){
+            if (deadline){
+                var newDeadline = {
+                        "id":deadline.id,
+                        "_dateHolder":deadline.date,
+                        "date":deadline.date,
+                        "_timestampHolder":undefined,
+                        "timestamp":undefined,
+                };
+                Object.defineProperty(newDeadline,"timestamp",{
+                	get:function(){
+                		if (angular.isUndefined(this._dateHolder)){
+                			this._dateHolder = this.date;
+                		}
+                		this._timestampHolder = Date.parse(this._dateHolder);
+                		return this._timestampHolder;
+                	},
+                	set:function(input){
 
-                        var newTextDate = Util.formatDateObjectToText(new Date(input));
+                            var newTextDate = Util.formatDateObjectToText(new Date(input));
 
-            		    this._dateHolder = newTextDate;
-            		    this.date = newTextDate;
-            		    this._timestampHolder = Date.parse(this._timestampHolder);     
-            	}
-            });
-            //Adds a dynamicly changing 'date' when the timestamp is changed.
+                		    this._dateHolder = newTextDate;
+                		    this.date = newTextDate;
+                		    this._timestampHolder = Date.parse(this._timestampHolder);     
+                	}
+                });
+                //Adds a dynamicly changing 'date' when the timestamp is changed.
 
             return newDeadline;
+           }
+           else{
+                $log.error("could not get deadline with id:", id);
+                return null;
+           }
         };
 
         function getDeadlineFull(id) {
             var oldDeadline = getDeadline(id);
-            var projectIds = _getAllDeadlineProjectIds(id);
-            var departmentIds = _getAllDeadlineDepartmentIds(id);
-            var resourceIds = _getAllDeadlineResourceIds(id);
-            var projects = projectIds.map(function(id) {
-                return getProject(id);
-            });
-            var departments = departmentIds.map(function(id) {
-                return getDepartment(id);
-            });
-            var resources = resourceIds.map(function(id) {
-                return getResource(id);
-            });
-            var newDeadline = {
-                "id": oldDeadline.id,
-                "date": oldDeadline.date,
-                "timestamp": oldDeadline.timestamp,
-                "projectIds": projectIds,
-                "departmentIds": departmentIds,
-                "resourceIds": resourceIds,
-                "projects": projects,
-                "resources": resources,
-                "departments": departments,
+            if (oldDeadline){
+                    var ownProjectIds = _getAllDeadlineProjectIds(id);
+                    var ownDepartmentIds = _getAllDeadlineDepartmentIds(id);
+                    var ownResourceIds = _getAllDeadlineResourceIds(id);
+                    var ownProjects = [];
+                    var ownDepartments = [];
+                    var ownResources = [];
+
+                    ownProjectIds.map(function(projectId) {
+                        ownProjects.push(getProject(projectId));
+                    });
+                    ownDepartmentIds.map(function(departmentId) {
+                        ownDepartments.push(getDepartment(departmentId));
+                    });
+                    ownResourceIds.map(function(resourceId) {
+                        ownResources.push(getResource(resourceId));
+                    });
+
+                    var newDeadline = {};
+                    newDeadline['id'] = oldDeadline.id;
+                    newDeadline['date'] = oldDeadline.date;
+                    newDeadline['timestamp'] = oldDeadline.timestamp;
+                    newDeadline['projectIds'] = ownProjectIds;
+                    newDeadline['departmentIds'] = ownDepartmentIds;
+                    newDeadline['resourceIds'] = ownResourceIds;
+                    //newDeadline['projects'] = ownProjects;
+                    //newDeadline['departments'] = ownDepartments;
+                    //newDeadline['resources'] = ownResources;
+
+                    return newDeadline;
             }
-            return newDeadline;
+            else{
+                    return null;
+            }
         };
 
         function getDepartment(id) {
@@ -566,14 +575,14 @@
             var deptProjectIds = _getAllDepartmentProjectIds(id);
             var deptResourceIds = _getAllDepartmentResourceIds(id);
             var deptDeadlineIds = _getAllDepartmentDeadlineIds(id);
-            var projects = deptProjectIds.map(function(id) {
-                return getProject(id);
+            var projects = deptProjectIds.map(function(p_id) {
+                return getProject(p_id);
             });
-            var resources = deptResourceIds.map(function(id) {
-                return getResource(id);
+            var resources = deptResourceIds.map(function(r_id) {
+                return getResource(r_id);
             });
-            var deadlines = deptDeadlineIds.map(function(id) {
-                return getDeadline(id);
+            var deadlines = deptDeadlineIds.map(function(d_id) {
+                return getDeadline(d_id);
             });
             var newDept = {
                 "id": oldDepartment.id,
@@ -594,8 +603,8 @@
 
         function getProjectFull(id) {
             var oldProject = getProject(id);
-            var resourceObjects = oldProject.resources.map(function(id) {
-                return getResource(id);
+            var resourceObjects = oldProject.resources.map(function(r_id) {
+                return getResource(r_id);
             });
             var departmentObject = getDepartment(oldProject.departmentId);
             var deadlineObject = getDeadline(oldProject.deadlineId);
@@ -667,14 +676,14 @@
             var projectIds = _getAllResourceProjectIds(id);
             var departmentIds = _getAllResourceDepartmentIds(id);
             var deadlineIds = _getAllResourceDeadlineIds(id);
-            var projects = projectIds.map(function(id) {
-                return getProject(id);
+            var projects = projectIds.map(function(p_id) { //works
+                return getProject(p_id);
             });
-            var departments = departmentIds.map(function(id) {
-                return getDepartment(id);
+            var departments = departmentIds.map(function(dept_id) {
+                return getDepartment(dept_id);
             });
-            var deadlines = deadlineIds.map(function(id) {
-                return getDeadline(id);
+            var deadlines = deadlineIds.map(function(dead_id) {
+                return getDeadline(dead_id);
             });
             var newResource = {
                 "id": oldResource.id,
@@ -695,13 +704,13 @@
         ----------------------------*/
         function listDeadlines() {
             var rawDeadlines = ConvertedDataset['deadlines'];
-            var output = [];
+            /*var output = [];
 
             rawDeadlines.map(function(deadline){
                 output.push(getDeadline(deadline.id)); //returns converted deadline.
-            })
+            })*/
 
-            return output;
+            return rawDeadlines;
         };
 
         function listOfUnassignedResourceIds(projectResources){
@@ -725,11 +734,9 @@
 
         function listDeadlinesFull() {
             var output = [];
-            var deadlines = listDeadlines();
-            for (var i = 0; i < deadlines.length; i++) {
-                var id = deadlines[i].id;
-                output.push(getDeadlineFull(id));
-            };
+            listDeadlines().map(function(deadline){
+                output.push(getDeadlineFull(deadline.id));
+            });
             return output;
         };
 
@@ -764,7 +771,7 @@
         function listResourcesFull() {
             var output = [];
             var resources = listResources();
-            for (var i = 0; i < resourcse.length; i++) {
+            for (var i = 0; i < resources.length; i++) {
                 var id = resources[i].id;
                 output.push(getResourceFull(id));
             }

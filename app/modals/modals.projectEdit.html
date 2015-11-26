@@ -40,7 +40,7 @@
 				<div class="panel-footer">
 					<div class="input-group">
 						<select class="form-control" id="resourceAdder" ng-model="vm.resourceToAdd" ng-options="resource as vm.getResource(resource).name for resource in vm.unassignedResourceIds(vm.project.resources) | orderBy : vm.resourceSorter " convert-to-number>
-							<option ng-show="vm.project.resources.length == 0" >{{"All resources allocated."}}</option>
+							<option ng-show="in vm.unassignedResourceIds(vm.project.resources).length == 0" >{{"All resources allocated."}}</option>
 						</select>
 						<div class="input-group-btn">
 							<button class="btn btn-info" type="button" ng-click="vm.addResource(vm.resourceToAdd)">Assign</button>
@@ -54,8 +54,11 @@
 		<button class="btn btn-success" ng-click="vm.sendOk(vm.project)">
 			Save Changes
 		</button>
-		<button class="btn btn-danger" ng-click="vm.sendCancel('Canceled')">
+		<button class="btn btn-warning" ng-click="vm.sendCancel()">
 			Cancel
+		</button>
+		<button class="btn btn-danger" ng-click="vm.sendDelete()">
+			Delete
 		</button>
 	</div>
 </div>

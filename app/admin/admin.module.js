@@ -2,8 +2,7 @@
     'use strict';
 
     angular
-        .module('modals', [
-        	'ui.router',
+        .module('admin', [
             'core'
         ]);
 })();

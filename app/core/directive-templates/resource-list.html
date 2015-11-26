@@ -1,0 +1,12 @@
+<div>
+	<li ng-show = "vm.isCount">
+		<span class="text-muted">Total Resources: </span> {{vm.resources.length || "None"}}
+	</li>
+	<li ng-show="vm.isList" >
+		<span class="text-muted">Resources: </span>
+		<ul>
+			<li ng-repeat="r_id in vm.resources">{{ vm.getResource(r_id).name }}</li>
+			<li ng-show="vm.resources.length == 0"><em>No resources assigned to this project.</em></li>
+		</ul>
+	</li>
+</div>

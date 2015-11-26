@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+	<div class="panel-heading">
+		<button class="btn btn-success btn-xs">Create New Deadline</button>
+	</div>
+
+  <!-- Table -->
+  	<div class="table-responsive">
+  	<table class="table">
+  		<thead>
+	  		<tr>
+	  			<th class="editCol"></th>
+		    	<th class="idCol">ID</th>
+		    	<th>Date</th>
+		    	<th>Project Count</th>
+		    	<th>Department Count</th>
+		    	<th>Resource Count</th>
+		    </tr>
+    	</thead>
+    	<tbody>
+	    	<tr ng-repeat="deadline in vm.listDeadlines()">
+	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
+		    	<td class="idCol">{{deadline.id || "(ID Error)"}}</td>
+		    	<td>{{deadline.date || "Error"}}</td>
+		    	<td>{{vm.getDeadlineFull(deadline.id).projectIds.length || "-"}}</td>
+		    	<td>{{vm.getDeadlineFull(deadline.id).departmentIds.length || '-'}}</td>
+		    	<td>{{vm.getDeadlineFull(deadline.id).resourceIds.length || '-'}}</td>
+	    	</tr>
+    	</tbody>
+   	</table>
+   	</div>
+</div>

@@ -5,3 +5,10 @@ ul li{
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .useful-link { cursor: pointer; }
+
+.editCol {
+	width: 64px;
+}
+.idCol {
+	width: 64px;
+}

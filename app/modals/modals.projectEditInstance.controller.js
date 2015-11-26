@@ -30,6 +30,7 @@
         vm.resourceSorter           = resourceSorter;
 
         vm.sendCancel               = sendCancel;
+        vm.sendDelete               = sendDelete;
         vm.sendOk                   = sendOk;
         vm.toggleCalendar           = toggleCalendar;
 
@@ -56,7 +57,11 @@
         };
 
         function sendCancel(){
-            $uibModalInstance.dismiss();
+            $uibModalInstance.dismiss("canceled");
+        };
+
+        function sendDelete(){
+            $uibModalInstance.dismiss("delete");
         };
 
         function sendOk(){

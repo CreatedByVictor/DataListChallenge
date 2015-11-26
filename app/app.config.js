@@ -3,7 +3,12 @@
     configure.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     function configure($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/departments');
+        var admin;
+        var adminEditDeadlines;
+        var adminEditDepartments;
+        var adminEditProjects;
+        var adminEditResources;
+
         var coreViewFilepath = "app/core/core.listview.host.html";
         var deadlines;
         var deadlinesResources;
@@ -14,6 +19,63 @@
         
         var project;
         //////////////////////////////////////
+        admin = {
+            name:"admin",
+            url:"/admin",
+            views:{
+                'root':{
+                    templateUrl:'app/admin/admin-host-page.html',
+                    controller: 'adminPageController',
+                    controllerAs:'vm'
+                }
+            }
+        };
+        adminEditDeadlines = {
+            name:'admin.editDeadlines',
+            url:"/deadlines",
+            views:{
+                "adminView":{
+                    templateUrl:'app/admin/admin-templates/edit-deadlines.html',
+                    controller: 'adminPageController',
+                    controllerAs:'vm'
+                }
+            }
+        };
+        adminEditDepartments = {
+            name:'admin.editDepartments',
+            url:"/departments",
+            views:{
+                "adminView":{
+                    templateUrl:'app/admin/admin-templates/edit-departments.html',
+                    controller: 'adminPageController',
+                    controllerAs:'vm'
+                }
+            }
+        };
+        adminEditProjects = {
+            name:'admin.editProjects',
+            url:"/projects",
+            views:{
+                "adminView":{
+                    templateUrl:'app/admin/admin-templates/edit-projects.html',
+                    controller: 'adminPageController',
+                    controllerAs:'vm'
+                }
+            }
+        };
+        adminEditResources = {
+            name:'admin.editResources',
+            url:"/resources",
+            views:{
+                "adminView":{
+                    templateUrl:'app/admin/admin-templates/edit-resources.html',
+                    controller: 'adminPageController',
+                    controllerAs:'vm'
+                }
+            }
+        };
+
+
         deadlines = {
             name: 'deadlines',
             url: '/deadlines',
@@ -105,7 +167,14 @@
             };
         };
         //////////////////////////////////////
+        $urlRouterProvider.otherwise('/departments');
+        $urlRouterProvider.when('/admin', '/admin/projects');
         $stateProvider
+            .state(admin)
+            .state(adminEditDeadlines)
+            .state(adminEditDepartments)
+            .state(adminEditProjects)
+            .state(adminEditResources)
         	.state(deadlines)
         	.state(deadlinesResources)
         	.state(departments)

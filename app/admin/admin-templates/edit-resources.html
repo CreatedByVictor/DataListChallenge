@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+  	<button class="btn btn-success btn-xs">Create New Resource</button>
+  </div>
+
+  <!-- Table -->
+  	<div class="table-responsive">
+  	<table class="table">
+  		<thead>
+	  		<tr>
+	  			<th class="editCol"></th>
+		    	<th class="idCol">ID</th>
+		    	<th>Name</th>
+		    	<th>Project Count</th>
+		    	<th>Department Count</th>
+		    	<th>Deadline Count</th>
+		    </tr>
+    	</thead>
+    	<tbody>
+	    	<tr ng-repeat="resource in vm.listResources()">
+	    		<td class="editCol"><button class="btn btn-info btn-xs">Edit</button></td>
+		    	<td class="idCol">{{resource.id || "(ID Error)"}}</td>
+		    	<td>{{resource.name || "(Unnamed Resource)"}}</td>
+		    	<td>{{vm.getResourceFull(resource.id).projectIds.length || "-"}}</td>
+		    	<td>{{vm.getResourceFull(resource.id).departmentIds.length || "-"}}</td>
+		    	<td>{{vm.getResourceFull(resource.id).deadlineIds.length || "-"}}</td>
+	    	</tr>
+    	</tbody>
+   	</table>
+   	</div>
+</div>

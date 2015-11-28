@@ -56,8 +56,27 @@
 			</div>
 			<h4>{{vm.project.resources.length || "No"}} Assigned Resource<span ng-hide="vm.project.resources.length == 1">s</span>:</h4>
 			<ul id="resourceList" class="list-group">
-				<li class="list-group-item" ng-repeat="resourceId in vm.project.resources">
-					<button class="btn btn-danger btn-xs" ng-click="vm.unassignResource($index)">Unassign</button>
+				<li class="list-group-item" 
+					ng-repeat="resourceId in vm.project.resources"
+					ng-class="{'list-group-item-danger':vm.isMarkedForRemoval(resourceId)}">
+					<button 
+						class="btn btn-danger btn-xs" 
+						ng-click="vm.markForRemoval(resourceId)"
+						ng-hide="vm.isMarkedForRemoval(resourceId)">
+							Unassign
+					</button>
+					<button
+						class="btn btn-default btn-xs"
+						ng-show="vm.isMarkedForRemoval(resourceId)"
+						ng-click="vm.unmarkForRemoval(resourceId)">
+						Cancel
+					</button>
+					<button
+						class="btn btn-success btn-xs"
+						ng-show="vm.isMarkedForRemoval(resourceId)"
+						ng-click="vm.unassignResource(resourceId)">
+						Unassign
+					</button>
 					<span style="margin-left: 8px" >{{ vm.getResource(resourceId).name }}</span>
 				</li>
 			</ul>
@@ -65,6 +84,7 @@
 				<select 
 					class="form-control" 
 					id="resourceAdder" 
+					ng-disabled="vm.unassignedResourceIds(vm.project.resources).length === 0"
 					ng-model="vm.resourceToAdd" 
 					ng-options="resource as vm.getResource(resource).name for resource in vm.unassignedResourceIds(vm.project.resources) | orderBy : vm.resourceSorter " 
 					convert-to-number>
@@ -73,7 +93,11 @@
 					</option>
 				</select>
 				<div class="input-group-btn">
-					<button class="btn btn-info" type="button" ng-click="vm.addResource(vm.resourceToAdd)">
+					<button 
+						ng-disabled="vm.unassignedResourceIds(vm.project.resources).length === 0"
+						class="btn btn-info" 
+						type="button" 
+						ng-click="vm.addResource(vm.resourceToAdd)">
 						Assign
 					</button>
 				</div>

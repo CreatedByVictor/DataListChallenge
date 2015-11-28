@@ -3,61 +3,91 @@
 		<h4 class="modal-title"><small> Editing: </small>{{vm.project.name || "Untitled Project"}}</h4>
 	</div>
 	<div class="modal-body">
-		<div class="container-fluid">
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label for="ProjectTitleEntry" class="col-sm-2 control-label">Title</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="vm.project.name" class="form-control" id="ProjectTitleEntry" placeholder="Project Title">
-					</div>
+		<form name="projectForm">
+			<div ng-class="{ 'has-error': projectForm.projectTitle.$touched && projectForm.projectTitle.$invalid }">
+				<div id="projectTitle" class="input-group">
+					<label class="input-group-addon">Title</label>
+					<input 
+						name="projectTitle"
+						ng-model="vm.project.name" 
+						ng-minlength="1" 
+						class="form-control"
+						required>
+					</input>
 				</div>
-				<div class="form-group">
-					<label for="DepartmentEntry" class="col-sm-2 control-label">Department</label>
-					<div class="col-sm-10">
-						<select type="text" ng-model="vm.project.departmentId" class="form-control" id="DepartmentEntry" placeholder="Department Name" ng-options="dept.id as dept.name for dept in vm.listDepartments | orderBy : 'name' ">
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="DeadlineEntry" class="col-sm-2 control-label">Deadline</label>
-					<div class="col-sm-10">
-						<select class="form-control" ng-model="vm.project.deadlineId" id="DeadlineEntry" placeholder="Deadline Date"  ng-options="deadline.id as deadline.date for deadline in vm.listDeadlines | orderBy : 'timestamp' ">
-						</select>
-					</div>
-				</div>
-			</form>
-			<hr>
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Assigned Resources:</h3>
-				</div>
-				<ul class="list-group">
-					<li class="list-group-item" ng-repeat="resourceId in vm.project.resources">
-						<button class="btn btn-danger btn-sm" ng-click="vm.unassignResource($index)">Unassign</button>
-						<span style="margin-left: 8px" >{{ vm.getResource(resourceId).name }}</span>
-					</li>
-				</ul>
-				<div class="panel-footer">
-					<div class="input-group">
-						<select class="form-control" id="resourceAdder" ng-model="vm.resourceToAdd" ng-options="resource as vm.getResource(resource).name for resource in vm.unassignedResourceIds(vm.project.resources) | orderBy : vm.resourceSorter " convert-to-number>
-							<option ng-show="in vm.unassignedResourceIds(vm.project.resources).length == 0" >{{"All resources allocated."}}</option>
-						</select>
-						<div class="input-group-btn">
-							<button class="btn btn-info" type="button" ng-click="vm.addResource(vm.resourceToAdd)">Assign</button>
-						</div>
-					</div>
+				<div ng-messages="projectForm.projectTitle.$error" ng-if="projectForm.projectTitle.$dirty">
+					<p class="help-text text-danger" ng-message="required">A Project title is required.</p>
 				</div>
 			</div>
-		</div>
+			<div ng-class="{ 'has-error': projectForm.departmentName.$touched && projectForm.departmentName.$invalid }">
+				<div id="departmentName" class="input-group">
+					<label class="input-group-addon">Department</label>
+					<select 
+						type="text"
+						name="departmentName"
+						required="true" 
+						ng-model="vm.project.departmentId" 
+						class="form-control" 
+						id="DepartmentEntry" 
+						ng-options="dept.id as dept.name for dept in vm.listDepartments | orderBy : 'name' ">
+						<option value="">-- Assign to a Department --</option>
+					</select>
+				</div>
+				<div ng-messages="projectForm.departmentName.$error" ng-if="projectForm.departmentName.$dirty">
+					<p class="help-text text-danger" ng-message="required">A Department is required.</p>
+				</div>
+			</div>
+			<div ng-class="{ 'has-error': projectForm.deadlineDate.$touched && projectForm.deadlineDate.$invalid }">
+				<div id="deadlineDate" class="input-group">
+					<label class="input-group-addon">Deadline</label>
+					<select 
+						name="deadlineDate"
+						required="true" 
+						class="form-control" 
+						ng-model="vm.project.deadlineId" 
+						id="DeadlineEntry"  
+						ng-options="deadline.id as deadline.date for deadline in vm.listDeadlines | orderBy : 'timestamp' ">
+						<option value="">-- Assign a deadline --</option>
+					</select>
+				</div>
+				<div ng-messages="projectForm.deadlineDate.$error" ng-if="projectForm.deadlineDate.$dirty">
+					<p class="help-text text-danger" ng-message="required">A Deadline is required.</p>
+				</div>
+			</div>
+			<h4>{{vm.project.resources.length || "No"}} Assigned Resource<span ng-hide="vm.project.resources.length == 1">s</span>:</h4>
+			<ul id="resourceList" class="list-group">
+				<li class="list-group-item" ng-repeat="resourceId in vm.project.resources">
+					<button class="btn btn-danger btn-xs" ng-click="vm.unassignResource($index)">Unassign</button>
+					<span style="margin-left: 8px" >{{ vm.getResource(resourceId).name }}</span>
+				</li>
+			</ul>
+			<div class="input-group">
+				<select 
+					class="form-control" 
+					id="resourceAdder" 
+					ng-model="vm.resourceToAdd" 
+					ng-options="resource as vm.getResource(resource).name for resource in vm.unassignedResourceIds(vm.project.resources) | orderBy : vm.resourceSorter " 
+					convert-to-number>
+					<option value="">
+						{{ vm.unassignedResourceIds(vm.project.resources).length === 0 ? " -- All Resources have been assigned. --" : "-- Assign a Resource --" }}
+					</option>
+				</select>
+				<div class="input-group-btn">
+					<button class="btn btn-info" type="button" ng-click="vm.addResource(vm.resourceToAdd)">
+						Assign
+					</button>
+				</div>
+			</div>
+		</form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" ng-click="vm.sendOk(vm.project)">
+		<button type="submit" class="btn btn-success" ng-disabled="projectForm.$invalid" ng-click="vm.sendOk(vm.project)">
 			Save Changes
 		</button>
 		<button class="btn btn-warning" ng-click="vm.sendCancel()">
 			Cancel
 		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()">
+		<button class="btn btn-danger" ng-click="vm.sendDelete()" ng-disabled="projectForm.$invalid">
 			Delete
 		</button>
 	</div>

@@ -1,8 +1,8 @@
-<div>
+<div ng-init="vm.edit(vm.project)">
 	<h2>
 		{{vm.project.name}}
 		<small>project</small> 
-		<small>(<a class="useful-link" ng-click="vm.edit(vm.project, '^')">edit</a>)</small>
+		<small>(<a class="useful-link" ng-click="vm.edit(vm.project, '^')">quick edit</a>)</small>
 	</h2>
 	<ul class="list-unstyled">
 		<li><span class="text-muted">Deadline: </span>

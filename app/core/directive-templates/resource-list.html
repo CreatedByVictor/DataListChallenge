@@ -5,7 +5,7 @@
 	<li ng-show="vm.isList" >
 		<span class="text-muted">Resources: </span>
 		<ul>
-			<li ng-repeat="r_id in vm.resources">{{ vm.getResource(r_id).name }}</li>
+			<li ng-repeat="r_id in vm.resources">{{ vm.getResource(r_id).name || "(Unnamed Resource)"}}</li>
 			<li ng-show="vm.resources.length == 0"><em>No resources assigned to this project.</em></li>
 		</ul>
 	</li>

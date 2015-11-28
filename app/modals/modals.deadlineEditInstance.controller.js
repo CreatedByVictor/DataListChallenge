@@ -5,10 +5,10 @@
         .module('modals')
         .controller('deadlineEditInstanceController', deadlineEditInstanceController);
 
-    deadlineEditInstanceController.$inject = ['dataService', '$uibModalInstance', 'deadline', 'utilityService'];
+    deadlineEditInstanceController.$inject = ['utilityService','dataService', '$uibModalInstance', 'deadline', 'utilityService'];
 
     /* @ngInject */
-    function deadlineEditInstanceController(dataService, $uibModalInstance, deadline, Util) {
+    function deadlineEditInstanceController(utilityService, dataService, $uibModalInstance, deadline, Util) {
         var vm = this;
 
         vm.addResource              = addResource;
@@ -16,6 +16,7 @@
         vm.deadline                 = deadline;
 
         vm.getDeadline              = getDeadline;
+        vm.getDeadlineFull          = getDeadlineFull;
         vm.getDepartment            = getDepartment;
         vm.getResource              = getResource;
 
@@ -32,12 +33,43 @@
         vm.sendCancel               = sendCancel;
         vm.sendDelete               = sendDelete;
         vm.sendOk                   = sendOk;
+
         vm.toggleCalendar           = toggleCalendar;
 
         vm.unassignedResourceIds    = unassignedResourceIds;
         vm.unassignResource         = unassignResource;
 
+        vm.deadlineModel            = deadlineModel;
+
         ////////////////
+
+        function deadlineModel(){
+
+            var dm = {};
+
+            Object.defineProperty(dm, "timestamp",{
+                get:function(){
+                    var convertedDate = Date.parse(deadline.date);
+                    return convertedDate;
+                },
+                set:function(input){
+                    deadline.date = utilityService.formatDateObjectToText(new Date(input));
+                }
+            });
+
+            Object.defineProperty(dm, "dateObject",{
+                get:function(){
+                    return new Date(deadline.date);
+                },
+                set:function(input){
+                    deadline.date = utilityService.formatDateObjectToText(new Date(input));
+                }
+            });
+
+            return dm;
+        }
+
+
 
         function addResource(){
             if (vm.resourceToAdd){
@@ -48,6 +80,9 @@
 
         function getDeadline(id){
             return dataService.getDeadline(id);
+        };
+        function getDeadlineFull(id){
+            return dataService.getDeadlineFull(id);
         };
         function getDepartment(id){
             return dataService.getDepartment(id);

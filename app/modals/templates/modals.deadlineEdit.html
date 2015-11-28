@@ -1,11 +1,28 @@
 <div>
 	<div class="modal-header">
-		<h4 class="modal-title"><small> Editing: </small>{{vm.deadline.name || "(Unnamed Resource)"}}</h4>
+		<h4 class="modal-title">
+			<small> Editing Deadline </small>
+			{{vm.deadline.date || "(Deadline Error)"}}
+		</h4>
 	</div>
 	<div class="modal-body">
+		<h3 class="text-center">{{vm.deadline.date || "(Deadline Error)"}}</h3>
 		<div class="container-fluid">
-		    <div style="display:inline-block; min-height:290px;">
-		    	<uib-datepicker ng-model="vm.deadline.timeline" min-date="minDate" show-weeks="false" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+			<div class="row">
+				<div class="col-xs-12 container-fluid">
+				    <div class="center-block">
+				    	<!--<uib-datepicker ng-model="vm.deadlineModel().timestamp" min-date="minDate" show-weeks="false" class="container"></uib-datepicker>-->
+				    	<uib-datepicker ng-model="vm.deadlineModel().timestamp" min-date="minDate" show-weeks="false"></uib-datepicker>
+				    </div>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="col-xs-12 container-fluid">
+			    	<div>
+			    		<!--<uib-timepicker show-meridian="false" ng-model="vm.deadlineModel().dateObject"></uib-timepicker>-->
+			    		<uib-timepicker class="center-block" show-meridian="false" ng-model="vm.deadlineModel().timestamp"></uib-timepicker>
+			    	</div>
+			    </div>
 		    </div>
 		</div>
 	</div>

@@ -4,6 +4,7 @@
 
 	'ui.router', 
 	'ui.bootstrap',
+	'ngMessages',
 	'core',
 	'deadlines',
 	'departments',

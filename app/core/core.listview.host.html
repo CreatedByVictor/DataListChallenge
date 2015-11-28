@@ -1,5 +1,5 @@
 <div>
-	<div ng-hide="  ('*.project' | includedByState) ">
+	<div class="page-header" ng-hide="  ('*.project' | includedByState) ">
 		<h1>
 			{{vm.pageTitle}} 
 			<small> sorted by
@@ -13,7 +13,7 @@
 			<a ng-show=" !( vm.sortingStateB | isState ) " ui-sref=" {{ vm.sortingStateB }} ">{{vm.sortingNameB}}</a>.
 		</div>
 	</div>
-	<div ng-hide = " !('*.project' | includedByState) ">
+	<div class="page-header" ng-hide = " !('*.project' | includedByState) ">
 		<h1>
 			Single Project
 		</h1>

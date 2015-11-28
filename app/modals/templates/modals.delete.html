@@ -1,0 +1,21 @@
+<div class="modal-content">
+	<div class="modal-header bg-danger">
+		<h4 class="modal-title">Are you sure?</h4>
+	</div>
+	<div class="modal-body text-center">
+		<p>You are about to remove the item:</p>
+		<hr>
+		<h3>{{vm.body}} <small>({{vm.type}})</small></h3>
+		<hr>
+		<p>If you decide to continue, every reference to this item will be throughly removed from the dataset in addition to the item itself.</p>
+		<h5>Once completed, this operation cannot be undone.</h5>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-click="vm.yes()">
+			Yes. Delete this.
+		</button>
+		<button class="btn btn-warning" ng-click="vm.no()">
+			No. Do not delete this.
+		</button>
+	</div>
+</div>

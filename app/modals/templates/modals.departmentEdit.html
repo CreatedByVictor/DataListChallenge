@@ -3,25 +3,35 @@
 		<h4 class="modal-title"><small> Editing: </small>{{vm.department.name || "(Unnamed Department)"}}</h4>
 	</div>
 	<div class="modal-body">
-		<div class="container-fluid">
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label for="DepartmentTitleEntry" class="col-sm-2 control-label">Name</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="vm.department.name" class="form-control" id="DepartmentTitleEntry" placeholder="Department Name">
-					</div>
+		<form name="departmentForm">
+			<div ng-class="{ 'has-error': departmentForm.departmentName.$touched && departmentForm.departmentName.$invalid }">
+				<div id="departmentName" class="input-group">
+					<label class="input-group-addon">Name</label>
+					<input
+						type="text"
+						id="ResourceTitleEntry"
+						name="departmentName"
+						ng-model="vm.department.name" 
+						ng-minlength="1" 
+						class="form-control"
+						placeholder="Enter a Department Name"
+						required = "true">
+					</input>
 				</div>
-			</form>
-		</div>
+				<div ng-messages="departmentForm.departmentName.$error" ng-if="departmentForm.departmentName.$dirty">
+					<p class="help-text text-danger" ng-message="required">A Department Name is required.</p>
+				</div>
+			</div>
+		</form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" ng-click="vm.sendOk(vm.department)">
+		<button class="btn btn-success" ng-click="vm.sendOk(vm.department)" ng-disabled="departmentForm.$invalid">
 			Save Changes
 		</button>
 		<button class="btn btn-warning" ng-click="vm.sendCancel()">
 			Cancel
 		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()">
+		<button class="btn btn-danger" ng-click="vm.sendDelete()" ng-disabled="departmentForm.$invalid">
 			Delete
 		</button>
 	</div>

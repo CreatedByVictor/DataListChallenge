@@ -1,13 +1,14 @@
 (function() {
     angular.module('app').config(configure);
-    configure.$inject = ['$stateProvider', '$urlRouterProvider'];
+    configure.$inject = ['$stateProvider', '$urlRouterProvider', '$rootScopeProvider'];
 
-    function configure($stateProvider, $urlRouterProvider) {
+    function configure($stateProvider, $urlRouterProvider, $rootScopeProvider) {
         var admin;
         var adminEditDeadlines;
         var adminEditDepartments;
         var adminEditProjects;
         var adminEditResources;
+        var adminDataset;
 
         var coreViewFilepath = "app/core/core.listview.host.html";
         var deadlines;
@@ -16,7 +17,7 @@
         var departmentsResources;
         var projects;
         var projectsResources;
-        
+
         var project;
         //////////////////////////////////////
         admin = {
@@ -35,7 +36,7 @@
             url:"/deadlines",
             views:{
                 "adminView":{
-                    templateUrl:'app/admin/admin-templates/edit-deadlines.html',
+                    templateUrl:'app/admin/admin-templates/admin-edit-deadlines.html',
                     controller: 'adminPageController',
                     controllerAs:'vm'
                 }
@@ -46,7 +47,7 @@
             url:"/departments",
             views:{
                 "adminView":{
-                    templateUrl:'app/admin/admin-templates/edit-departments.html',
+                    templateUrl:'app/admin/admin-templates/admin-edit-departments.html',
                     controller: 'adminPageController',
                     controllerAs:'vm'
                 }
@@ -57,7 +58,7 @@
             url:"/projects",
             views:{
                 "adminView":{
-                    templateUrl:'app/admin/admin-templates/edit-projects.html',
+                    templateUrl:'app/admin/admin-templates/admin-edit-projects.html',
                     controller: 'adminPageController',
                     controllerAs:'vm'
                 }
@@ -68,12 +69,23 @@
             url:"/resources",
             views:{
                 "adminView":{
-                    templateUrl:'app/admin/admin-templates/edit-resources.html',
+                    templateUrl:'app/admin/admin-templates/admin-edit-resources.html',
                     controller: 'adminPageController',
                     controllerAs:'vm'
                 }
             }
         };
+        adminDataset = {
+            name:'admin.dataset',
+            url:"/dataset",
+            views:{
+                "adminView":{
+                    templateUrl:'app/admin/admin-templates/admin-dataset.html',
+                    controller: 'adminPageController',
+                    controllerAs: 'vm'
+                }
+            }
+        }
 
 
         deadlines = {
@@ -139,13 +151,6 @@
         project = function(parent, parentParent) {
             var ownName = parent.name + ".project"
             var projectViews = {};
-            /*
-            			projectViews['root'] = {
-            				templateUrl:coreViewFilepath,
-            				controller:'singleProjectController',
-            				controllerAs:'vm',
-            			};
-            			*/
             if (angular.isUndefined(parentParent)) {
                 projectViews['listViewArea@' + parent.name] = {
                     templateUrl: 'app/projects/single-project.html',
@@ -167,14 +172,18 @@
             };
         };
         //////////////////////////////////////
+
+        //$rootScopeProvider.digestTtl(100); //Hack.
+
         $urlRouterProvider.otherwise('/departments');
         $urlRouterProvider.when('/admin', '/admin/projects');
         $stateProvider
-            .state(admin)
-            .state(adminEditDeadlines)
-            .state(adminEditDepartments)
-            .state(adminEditProjects)
-            .state(adminEditResources)
+          .state(admin)
+          .state(adminEditDeadlines)
+          .state(adminEditDepartments)
+          .state(adminEditProjects)
+          .state(adminEditResources)
+          .state(adminDataset)
         	.state(deadlines)
         	.state(deadlinesResources)
         	.state(departments)

@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+  	<div class="panel-heading">
+  		<div class="input-group">
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="button" ng-click="vm.newDeadline()">
+					Create New Deadline
+				</button>
+			</span>
+			<input type="text" ng-model="dateFilter" class="form-control" placeholder="ID / Date Filter..." style="max-width:100%"></input>
+	    </div>
+  	</div>
+  	<div class="table-responsive">
+  	<table class="table">
+  		<thead>
+	  		<tr>
+	  			<th class="editCol"></th>
+		    	<th class="idCol text-muted">
+		    		<a ng-click="vm.setDeadlineOrder('id')">
+		    			ID
+		    		</a>
+		    	</th>
+		    	<th>
+		    		<a ng-click="vm.setDeadlineOrder('date')">
+		    			Date
+		    		</a>
+		    	</th>
+		    	<th class="text-muted">
+		    		<a ng-click="vm.setDeadlineOrder('projectCount')">
+		    			Project Count
+		    		</a>
+		    	</th>
+		    	<th class="text-muted">
+		    		<a ng-click="vm.setDeadlineOrder('departmentCount')">
+		    			Department Count
+		    		</a>
+		    	</th>
+		    	<th class="text-muted">
+		    		<a ng-click="vm.setDeadlineOrder('resourceCount')">
+		    			Resource Count
+		    		</a>
+		    	</th>
+		    </tr>
+    	</thead>
+    	<tbody>
+	    	<tr ng-repeat="deadline in vm.listDeadlines() | filter: dateFilter | orderBy: vm.orderDeadlines : vm.reverse" 
+	    	ng-class="{'editing':vm.isEditing(deadline.id),'deleting':vm.isDeleting(deadline.id)}">
+	    		<td class="editCol">
+					<button type="button" class="btn btn-info btn-xs" ng-click="vm.editDeadline(deadline)" >Edit</button>
+	    		</td>
+	    		<td class="text-muted">{{deadline.id}}</td>
+		    	<td>{{(deadline.date) || "Error"}}</td>
+		    	<td class="text-muted">{{vm.getDeadlineFull(deadline.id).projectIds.length || "-"}}</td>
+		    	<td class="text-muted">{{vm.getDeadlineFull(deadline.id).departmentIds.length || '-'}}</td>
+		    	<td class="text-muted">{{vm.getDeadlineFull(deadline.id).resourceIds.length || '-'}}</td>
+	    	</tr>
+	    	<tr ng-show="vm.listDeadlines().length == 0">
+	    		<td colspan="6" align="center"><em>No Deadlines In Database</em></td>
+	    	</tr>
+    	</tbody>
+   	</table>
+   	</div>
+</div>

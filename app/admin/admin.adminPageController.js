@@ -5,12 +5,15 @@
         .module('admin')
         .controller('adminPageController', adminPageController);
 
-    adminPageController.$inject = ['dataService', 'modalService', '$filter'];
+    adminPageController.$inject = ['dataService', 'modalService', '$filter', 'sortingService'];
 
     /* @ngInject */
-    function adminPageController(dataService, modalService, $filter) {
+    function adminPageController(dataService, modalService, $filter, sortingService) {
         var vm = this;
         var localEditingIndex = -1;
+        var _currentSort = "initial";
+
+        vm.currentSort          = currentSort();
 
         vm.dataset              = dataService.rawDataset;
 
@@ -28,6 +31,7 @@
         vm.getResource 			= getResource;
         vm.getResourceFull 		= getResourceFull;
 
+        vm.isSort               = isSort;
         vm.isEditing            = modalService.isEditing;
         vm.isDeleting           = modalService.isDeleting
 
@@ -40,43 +44,67 @@
         vm.listResources 		= listResources;
         vm.listResourcesFull 	= listResourcesFull;
 
+        //vm.sortedDeadlines      = $filter('orderBy')(dataService.listDeadlines(),   sortingService.dataSorter('deadline'),      sortingService.isReverse());
+        //vm.sortedDepartments    = $filter('orderBy')(dataService.listDepartments(), sortingService.dataSorter('department'),    sortingService.isReverse());
+        //vm.sortedProjects       = $filter('orderBy')(dataService.listProjects(),    sortingService.dataSorter('project'),       sortingService.isReverse());
+        //vm.sortedResources      = $filter('orderBy')(dataService.listResources(),   sortingService.dataSorter('resource'),      sortingService.isReverse());
+
+        vm.sorter               = sortingService.dataSorter;
+
         vm.newDeadline          = newDeadline;
         vm.newDepartment        = newDepartment;
         vm.newProject           = newProject;
         vm.newResource          = newResource;
 
-        vm.orderDeadlines       = orderDeadlines;
+        /*vm.orderDeadlines       = orderDeadlines;
         vm.orderDeadlineSort    = "date";
         vm.orderDepartments     = orderDepartments;
         vm.orderDepartmentSort  = "name";
         vm.orderProjects        = orderProjects;
         vm.orderProjectSort     = "name";
         vm.orderResources       = orderResources;
-        vm.orderResourceSort    = "name";
+        vm.orderResourceSort    = "name";*/
+
+        vm.setSort              = setSort;
 
         vm.reverse              = false;
 
-        vm.setDeadlineOrder     = setDeadlineOrder;
-        vm.setDepartmentOrder   = setDepartmentOrder;
-        vm.setProjectOrder      = setProjectOrder;
-        vm.setResourceOrder     = setResourceOrder;
+        //vm.setDeadlineOrder     = setDeadlineOrder;
+        //vm.setDepartmentOrder   = setDepartmentOrder;
+        //vm.setProjectOrder      = setProjectOrder;
+        //vm.setResourceOrder     = setResourceOrder;
 
-        vm.toggleReverse        = toggleReverse;
+        // vm.toggleReverse        = toggleReverse;
 
         ////////////////
+
+        function currentSort(){
+            return _currentSort;
+        };
+
+        function isSort(test){
+            //console.log(test, _currentSort, "=",test === _currentSort);
+            return test === _currentSort;
+        };
+
+// Modal        
         function editDeadline(deadline){
             modalService.openDeadlineEditModal(deadline);
+           
         };
         function editDepartment(department){
             modalService.openDepartmentEditModal(department);
+           
         };
         function editProject(project){
             modalService.openProjectEditModal(project);
+           
         };
         function editResource(resource){
             modalService.openResourceEditModal(resource);
+           
         };
-
+// get
         function getDeadline(id){
         	return dataService.getDeadline(id);
         };
@@ -101,7 +129,7 @@
         function getResourceFull(id){
         	return dataService.getResourceFull(id);
         };
-
+// list
         function listDeadlines(){
         	return dataService.listDeadlines();
         };
@@ -126,7 +154,7 @@
         function listResourcesFull(){
         	return dataService.listResourcesFull();
         };
-
+// new
         function newDeadline(){
             return modalService.newDeadlineModal();
         };
@@ -140,122 +168,27 @@
             return modalService.newResourceModal();
         };
 
-        function orderDeadlines(rawDeadline){
-            if (vm.orderDeadlineSort == "id"){
-                return rawDeadline.id;
-            }
-            else if (vm.orderDeadlineSort == "date"){ 
-                return getDeadlineFull(rawDeadline.id).timestamp;;
-            }
-            else if (vm.orderDeadlineSort == "projectCount"){
-                return 0 - getDeadlineFull(rawDeadline.id).projectIds.length;
-            }
-            else if (vm.orderDeadlineSort == "departmentCount"){
-                return 0 - getDeadlineFull(rawDeadline.id).departmentIds.length;
-            }
-            else if (vm.orderDeadlineSort == "resourceCount"){
-                return 0 - getDeadlineFull(rawDeadline.id).resourceIds.length;
-            }
-        };
-        function orderDepartments(rawDepartment){
-            if (vm.orderDepartmentSort == "id"){
-                return rawDepartment.id;
-            }
-            else if (vm.orderDepartmentSort == "name"){
-                var name = rawDepartment.name;
-                return "-"+name;
-            }
-            else if (vm.orderDepartmentSort == "projectCount"){
-                return 0 - getDepartmentFull(rawDepartment.id).projectIds.length;
-            }
-            else if (vm.orderDepartmentSort == "deadlineCount"){
-                return 0 - getDepartmentFull(rawDepartment.id).deadlineIds.length;
-            }
-            else if (vm.orderDepartmentSort == "resourceCount"){
-                return 0 - getDepartmentFull(rawDepartment.id).resourceIds.length;
-            }
-        };
-        function orderProjects(rawProject){
-            if (vm.orderProjectSort == "id"){
-                return rawProject.id;
-            }
-            else if (vm.orderProjectSort == "name" || vm.orderProjectSort == "title"){
-                var name = rawProject.name;
-                return "-"+name;
-            }
-            else if (vm.orderProjectSort == "departmentName"){
-                var name = getDepartment(rawProject.departmentId).name;
-                return "-" + name;
-            }
-            else if (vm.orderProjectSort == "deadlineDate"){
-                var timestamp = getDeadline(rawProject.deadlineId).timestamp;
-                return 0 - timestamp;
-            }
-            else if (vm.orderProjectSort == "resourceCount"){
-                return 0 - rawProject.resources.length;
-            }
-        };
-        function orderResources(rawResource){
-            if (vm.orderResourceSort == "id"){
-                return rawResource.id;
-            }
-            else if (vm.orderResourceSort == "name"){
-                var name = rawResource.name;
-                return "-"+name;
-            }
-            else if (vm.orderResourceSort == "projectCount"){
-                return 0 - getResourceFull(rawResource.id).projectIds.length;
-            }
-            else if (vm.orderResourceSort == "deadlineCount"){
-                return 0 - getResourceFull(rawResource.id).deadlineIds.length;
-            }
-            else if (vm.orderResourceSort == "departmentCount"){
-                return 0 - getResourceFull(rawResource.id).departmentIds.length;
+        function setSort(type, sort){
+
+            if (_currentSort == 'initial'){
+                sortingService.setSort(type,sort);
+                _currentSort = sort;
+                vm.reverse = true;
+            } else if (_currentSort !== sort){
+                sortingService.setSort(type, sort);
+                vm.reverse = false;
+                _currentSort = sort;
+            } else {
+                _currentSort = sort;
+                toggleReverse();
             }
 
         };
-
-
-        function setDeadlineOrder(target){
-            if (vm.orderDeadlineSort === target){
-                toggleReverse();
-            }
-            else{
-                vm.orderDeadlineSort = target;
-                vm.reverse = false;
-            }
-        };
-        function setDepartmentOrder(target){
-            if (vm.orderDepartmentSort === target){
-                toggleReverse();
-            }
-            else{
-                vm.orderDepartmentSort = target;
-                vm.reverse = false;
-            }
-        };
-        function setProjectOrder(target){
-            if (vm.orderProjectSort === target){
-                toggleReverse();
-            }
-            else{
-                vm.orderProjectSort = target;
-                vm.reverse = false;
-            }
-        };
-        function setResourceOrder(target){
-            if(vm.orderResourceSort === target){
-                toggleReverse();
-            }
-            else{
-                vm.orderResourceSort = target;
-                vm.reverse = false;
-            }
-        };
-
         function toggleReverse(){
             vm.reverse = !vm.reverse;
-        }
+        };
+    
+// conditionals
 
     }
 })();

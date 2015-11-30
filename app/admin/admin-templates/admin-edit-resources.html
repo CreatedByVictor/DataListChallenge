@@ -4,8 +4,11 @@
   		<div class="input-group">
 			<span class="input-group-btn">
 				<button class="btn btn-primary" type="button" ng-click="vm.newResource()">
-					Create New Resource
+					<i class="glyphicon glyphicon-plus"></i> Resource
 				</button>
+			</span>
+			<span class="input-group-addon">
+				Filter:
 			</span>
 			<input type="text" ng-model="resourceFilter" class="form-control" placeholder="ID / Name Filter..." style="max-width:100%"></input>
 	    </div>
@@ -18,35 +21,67 @@
 	  		<tr>
 	  			<th class="editCol"></th>
 		    	<th class="idCol text-muted">
-		    		<a ng-click="vm.setResourceOrder('id')">
-		    			ID
-		    		</a>
+		    		<sort-label 
+		    			text="'ID'" 
+		    			is-selected="vm.isSort('id')" 
+		    			is-reversed="vm.reverse"
+		    			regular-text="'Desc.'"
+		    			reverse-text="'Aesc.'"
+		    			inverted="false"
+		    			ng-click="vm.setSort('resource','id')">
+		    		</sort-label>
 		    	</th>
 		    	<th>
-		    		<a ng-click="vm.setResourceOrder('name')">
-		    			Name
-		    		</a>
+		    		<sort-label 
+		    			text="'Name'" 
+		    			is-selected="vm.isSort('name') || vm.isSort('initial')" 
+		    			is-reversed="vm.reverse"
+		    			regular-text="'A -> Z'"
+		    			reverse-text="'Z -> A'"
+		    			inverted="true"
+		    			ng-click="vm.setSort('resource','name')">
+		    		</sort-label>
 		    	</th>
 		    	<th class="text-muted">
-		    		<a ng-click="vm.setResourceOrder('projectCount')">
-		    			Project Count
-		    		</a>
+		    		<sort-label 
+		    			text="'Project Count'" 
+		    			is-selected="vm.isSort('projectCount')" 
+		    			is-reversed="vm.reverse"
+		    			regular-text="'Aesc.'"
+		    			reverse-text="'Desc.'"
+		    			inverted="false"
+		    			ng-click="vm.setSort('resource','projectCount')">
+		    		</sort-label>
 		    	</th>
 		    	<th class="text-muted">
-		    		<a ng-click="vm.setResourceOrder('departmentCount')">
-		    			Department Count
-		    		</a>
+		    		<sort-label 
+		    			text="'Department Count'" 
+		    			is-selected="vm.isSort('departmentCount')" 
+		    			is-reversed="vm.reverse"
+		    			regular-text="'Aesc.'"
+		    			reverse-text="'Desc.'"
+		    			inverted="false"
+		    			ng-click="vm.setSort('resource','departmentCount')">
+		    		</sort-label>
 		    	</th>
 		    	<th class="text-muted">
-		    		<a ng-click="vm.setResourceOrder('deadlineCount')">
-		    			Deadline Count
-		    		</a>
+		    		<sort-label 
+		    			text="'Deadline Count'" 
+		    			is-selected="vm.isSort('deadlineCount')" 
+		    			is-reversed="vm.reverse"
+		    			regular-text="'Aesc.'"
+		    			reverse-text="'Desc.'"
+		    			inverted="false"
+		    			ng-click="vm.setSort('resource','deadlineCount')">
+		    		</sort-label>
 		    	</th>
 		    </tr>
     	</thead>
     	<tbody>
-	    	<tr ng-repeat="resource in vm.listResources() | filter: resourceFilter | orderBy: vm.orderResources : vm.reverse" ng-class="{'editing':vm.isEditing(resource.id),'deleting':vm.isDeleting(resource.id)}" >
-	    		<td class="editCol"><button class="btn btn-info btn-xs" ng-click="vm.editResource(resource)">Edit</button></td>
+	    	<tr ng-repeat="resource in vm.listResources() | filter: resourceFilter | orderBy: vm.sorter('resource') : vm.reverse" ng-class="{'editing':vm.isEditing(resource.id),'deleting':vm.isDeleting(resource.id)}" >
+	    		<td class="editCol">
+	    			<button class="btn btn-info btn-xs" ng-click="vm.editResource(resource)">Edit</button>
+	    		</td>
 		    	<td class="idCol text-muted">{{resource.id || "(ID Error)"}}</td>
 		    	<td>{{resource.name || "(Unnamed Resource)"}}</td>
 		    	<td class="text-muted">{{vm.getResourceFull(resource.id).projectIds.length || "-"}}</td>

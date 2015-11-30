@@ -627,7 +627,9 @@
         ;
         
         function getDepartment(id) {
-            return _getById(id, "departments");
+                if(angular.isDefined(id)){
+                        return _getById(id, "departments");
+                }
         }
         ;
         
@@ -904,10 +906,6 @@
                 );
             }
             _removeFrom(id, "departments");
-            var zombie = getDepartment(id);
-            if (zombie) {
-                $log.log("Could not remove departement Id... aparently... departmentId:", departmentId);
-            }
         }
         ;
         
@@ -925,10 +923,6 @@
                 }
             }
             _removeFrom(id, "resources");
-            var zombie = getResource(id);
-            if (zombie) {
-                $log.error("Could not remove resource from database... resourceId:" + id);
-            }
         }
         ;
         /*--------------------------

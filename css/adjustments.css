@@ -2,7 +2,7 @@ ul li{
 	list-style-type: none;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a, th a{ cursor: pointer; }
 
 .useful-link { cursor: pointer; }
 
@@ -10,7 +10,7 @@ ul li{
 	width: 64px;
 }
 .idCol {
-	width: 64px;
+	width: 96px;
 }
 
 body > div.modal.fade.ng-isolate-scope.in > div > div > div > div.modal-body > div > div:nth-child(1) > div > div > div > table{
@@ -27,5 +27,7 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div.modal-body > d
 
 	overflow: auto;
 	overflow-x: hidden;
-
+}
+.sortSelected, .sortSelected:hover{
+	color: rgba(255,255,0,.8);
 }

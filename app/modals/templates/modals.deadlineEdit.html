@@ -6,24 +6,37 @@
 		</h4>
 	</div>
 	<div class="modal-body">
-		<h3 class="text-center">{{vm.deadline.date || "(Deadline Error)"}}</h3>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12 container-fluid">
-				    <div class="center-block">
-				    	<!--<uib-datepicker ng-model="vm.deadlineModel().timestamp" min-date="minDate" show-weeks="false" class="container"></uib-datepicker>-->
-				    	<uib-datepicker ng-model="vm.deadlineModel().timestamp" min-date="minDate" show-weeks="false"></uib-datepicker>
-				    </div>
-			    </div>
+		<h3 class="text-center" style="margin:0">{{vm.deadline.date || "(Deadline Error)"}}</h3>
+		<hr>
+		<div class="row">
+
+			<div class="col-sm-6" style="display:flex;justify-content:center;align-items:center;">
+
+			  	<div class="input-group">
+					<input 
+						type="text" 
+						class="form-control"
+						uib-datepicker-popup="MMMM dd, yyyy"
+						ng-model="vm.deadlineModel().timestamp"
+						readonly="true" 
+						required="true"
+						placeholder="Choose a date ->">
+					</input>
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="button">
+							<i class="glyphicon glyphicon-calendar"></i>
+						</button>
+					</span>
+				</div>
+
 			</div>
-			<div class="row">
-			    <div class="col-xs-12 container-fluid">
-			    	<div>
-			    		<!--<uib-timepicker show-meridian="false" ng-model="vm.deadlineModel().dateObject"></uib-timepicker>-->
-			    		<uib-timepicker class="center-block" show-meridian="false" ng-model="vm.deadlineModel().timestamp"></uib-timepicker>
-			    	</div>
-			    </div>
-		    </div>
+
+			<div class="col-sm-6" style="display:flex;justify-content:center;align-items:center;">
+
+					<div><uib-timepicker ng-model="vm.deadlineModel().timestamp" hour-step="1" minute-step="1" show-meridian="false"></uib-timepicker></div>
+
+			</div>
+
 		</div>
 	</div>
 	<div class="modal-footer">

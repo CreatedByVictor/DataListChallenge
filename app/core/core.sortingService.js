@@ -45,7 +45,7 @@
 					return rawDeadline.id;
 				}
 				else if (_deadlineSort == "DATE"){ 
-					return dataService.getDeadlineFull(rawDeadline.id).timestamp;;
+					return dataService.getDeadlineFull(rawDeadline.id).timestamp;
 				}
 				else if (_deadlineSort == "PROJECTCOUNT"){
 					return 0 - dataService.getDeadlineFull(rawDeadline.id).projectIds.length;
@@ -55,6 +55,8 @@
 				}
 				else if (_deadlineSort == "RESOURCECOUNT"){
 					return 0 - dataService.getDeadlineFull(rawDeadline.id).resourceIds.length;
+				} else{
+					sortError(_deadlineSort);
 				}
 			};
 			function adminOrderDepartments(rawDepartment){
@@ -73,6 +75,8 @@
 				}
 				else if (_departmentSort == "RESOURCECOUNT"){
 					return 0 - dataService.getDepartmentFull(rawDepartment.id).resourceIds.length;
+				} else{
+					sortError(_departmentSort);
 				}
 			};
 			function adminOrderProjects(rawProject){
@@ -89,10 +93,13 @@
 				}
 				else if (_projectSort == "DEADLINEDATE"){
 					var timestamp = dataService.getDeadline(rawProject.deadlineId).timestamp;
-					return 0 - timestamp;
+					//console.log('DeadlineDate', timestamp);
+					return timestamp;
 				}
 				else if (_projectSort == "RESOURCECOUNT"){
 					return 0 - rawProject.resources.length;
+				} else{
+					sortError(_projectSort);
 				}
 			};
 			function adminOrderResources(rawResource){
@@ -111,8 +118,18 @@
 				}
 				else if (_resourceSort == "DEPARTMENTCOUNT"){
 					return 0 - dataService.getResourceFull(rawResource.id).departmentIds.length;
+				} else{
+					sortError(_resourceSort);
 				}
 			};
+
+			function sortError(ownDataSort){
+				var errorData = {
+					dataType:dataType,
+					dataType:ownDataSort,
+				}
+				$log.error("sortingService.dataSorter Error:", errorData);
+			}
 
 			//Handler
 			if (dataType == 'DEADLINE'){

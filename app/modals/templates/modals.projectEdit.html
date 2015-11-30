@@ -4,54 +4,62 @@
 	</div>
 	<div class="modal-body">
 		<form name="projectForm">
-			<div ng-class="{ 'has-error': projectForm.projectTitle.$touched && projectForm.projectTitle.$invalid }">
-				<div id="projectTitle" class="input-group">
-					<label class="input-group-addon">Title</label>
-					<input 
-						name="projectTitle"
-						ng-model="vm.project.name" 
-						ng-minlength="1" 
-						class="form-control"
-						required>
-					</input>
-				</div>
-				<div ng-messages="projectForm.projectTitle.$error" ng-if="projectForm.projectTitle.$dirty">
-					<p class="help-text text-danger" ng-message="required">A Project title is required.</p>
-				</div>
-			</div>
-			<div ng-class="{ 'has-error': projectForm.departmentName.$touched && projectForm.departmentName.$invalid }">
-				<div id="departmentName" class="input-group">
-					<label class="input-group-addon">Department</label>
-					<select 
-						type="text"
-						name="departmentName"
-						required="true" 
-						ng-model="vm.project.departmentId" 
-						class="form-control" 
-						id="DepartmentEntry" 
-						ng-options="dept.id as dept.name for dept in vm.listDepartments | orderBy : 'name' ">
-						<option value="">-- Assign to a Department --</option>
-					</select>
-				</div>
-				<div ng-messages="projectForm.departmentName.$error" ng-if="projectForm.departmentName.$dirty">
-					<p class="help-text text-danger" ng-message="required">A Department is required.</p>
+			<div class="formSpacer">
+				<div ng-class="{ 'has-error': projectForm.projectTitle.$touched && projectForm.projectTitle.$invalid }">
+					<div id="projectTitle" class="input-group">
+						<label class="input-group-addon">Title</label>
+						<input 
+							name="projectTitle"
+							ng-model="vm.project.name" 
+							ng-minlength="1" 
+							class="form-control"
+							placeholder="Give this project a title."
+							required>
+						</input>
+					</div>
+					<div ng-messages="projectForm.projectTitle.$error">
+						<p class="help-text text-danger" ng-message="required">A Project title is required.</p>
+					</div>
 				</div>
 			</div>
-			<div ng-class="{ 'has-error': projectForm.deadlineDate.$touched && projectForm.deadlineDate.$invalid }">
-				<div id="deadlineDate" class="input-group">
-					<label class="input-group-addon">Deadline</label>
-					<select 
-						name="deadlineDate"
-						required="true" 
-						class="form-control" 
-						ng-model="vm.project.deadlineId" 
-						id="DeadlineEntry"  
-						ng-options="deadline.id as deadline.date for deadline in vm.listDeadlines | orderBy : 'timestamp' ">
-						<option value="">-- Assign a deadline --</option>
-					</select>
+			<div class="formSpacer">
+				<div ng-class="{ 'has-error': projectForm.departmentName.$touched && projectForm.departmentName.$invalid }">
+					<div id="departmentName" class="input-group">
+						<label class="input-group-addon">Department</label>
+						<select 
+							type="text"
+							name="departmentName"
+							required="true" 
+							ng-model="vm.project.departmentId" 
+							class="form-control" 
+							id="DepartmentEntry" 
+							placeholder="Assign project to a Department"
+							ng-options="dept.id as dept.name for dept in vm.listDepartments | orderBy : 'name' ">
+							<option value="" disabled selected>-- Assign to a Department --</option>
+						</select>
+					</div>
+					<div ng-messages="projectForm.departmentName.$error">
+						<p class="help-text text-danger" ng-message="required">A Department is required.</p>
+					</div>
 				</div>
-				<div ng-messages="projectForm.deadlineDate.$error" ng-if="projectForm.deadlineDate.$dirty">
-					<p class="help-text text-danger" ng-message="required">A Deadline is required.</p>
+			</div>
+			<div class="formSpacer">
+				<div ng-class="{ 'has-error': projectForm.deadlineDate.$touched && projectForm.deadlineDate.$invalid }">
+					<div id="deadlineDate" class="input-group">
+						<label class="input-group-addon">Deadline</label>
+						<select 
+							name="deadlineDate"
+							required="true" 
+							class="form-control" 
+							ng-model="vm.project.deadlineId" 
+							id="DeadlineEntry"  
+							ng-options="deadline.id as deadline.date for deadline in vm.listDeadlines | orderBy : 'timestamp' ">
+							<option value="" disabled selected>Assign a deadline</option>
+						</select>
+					</div>
+					<div ng-messages="projectForm.deadlineDate.$error">
+						<p class="help-text text-danger" ng-message="required">A Deadline is required.</p>
+					</div>
 				</div>
 			</div>
 			<ul id="resourceList" class="list-group">
@@ -95,7 +103,7 @@
 					ng-model="vm.resourceToAdd" 
 					ng-options="resource as vm.getResource(resource).name for resource in vm.unassignedResourceIds(vm.project.resources) | orderBy : vm.resourceSorter " 
 					convert-to-number>
-					<option value="">
+					<option value="" disabled selected>
 						{{ vm.unassignedResourceIds(vm.project.resources).length === 0 ? " -- All Resources have been assigned. --" : "-- Assign a Resource --" }}
 					</option>
 				</select>
@@ -112,14 +120,16 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="submit" class="btn btn-success" ng-disabled="projectForm.$invalid" ng-click="vm.sendOk(vm.project)">
-			Save Changes
-		</button>
-		<button class="btn btn-warning" ng-click="vm.sendCancel()">
-			Cancel
-		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()" ng-disabled="projectForm.$invalid">
-			Delete
-		</button>
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendOk(vm.project)" class="btn btn-success" ng-disabled="projectForm.$invalid">Save Changes</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendCancel()" class="btn btn-warning">Cancel</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendDelete()" class="btn btn-danger" ng-disabled="projectForm.$invalid">Delete</button>
+			</div>
+		</div>
 	</div>
 </div>

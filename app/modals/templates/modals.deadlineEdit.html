@@ -18,12 +18,13 @@
 						class="form-control"
 						uib-datepicker-popup="MMMM dd, yyyy"
 						ng-model="vm.deadlineModel().timestamp"
+						is-open="vm.isCalendarOpen"
 						readonly="true" 
 						required="true"
 						placeholder="Choose a date ->">
 					</input>
 					<span class="input-group-btn">
-						<button class="btn btn-success" type="button">
+						<button class="btn btn-success" type="button" ng-click="vm.toggleCalendar()">
 							<i class="glyphicon glyphicon-calendar"></i>
 						</button>
 					</span>
@@ -33,21 +34,23 @@
 
 			<div class="col-sm-6" style="display:flex;justify-content:center;align-items:center;">
 
-					<div><uib-timepicker ng-model="vm.deadlineModel().timestamp" hour-step="1" minute-step="1" show-meridian="false"></uib-timepicker></div>
+				<input type="time" class="form-control" ng-model="vm.deadlineModel().dateObject"></div>
 
 			</div>
 
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" ng-click="vm.sendOk(vm.resource)">
-			Save Changes
-		</button>
-		<button class="btn btn-warning" ng-click="vm.sendCancel()">
-			Cancel
-		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()">
-			Delete
-		</button>
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendOk(vm.deadline)" class="btn btn-success" ng-disabled="deadlineForm.$invalid">Save Changes</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendCancel()" class="btn btn-warning">Cancel</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendDelete()" class="btn btn-danger" ng-disabled="deadlineForm.$invalid">Delete</button>
+			</div>
+		</div>
 	</div>
 </div>

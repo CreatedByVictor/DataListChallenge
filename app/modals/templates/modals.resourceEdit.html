@@ -18,21 +18,23 @@
 						required = "true">
 					</input>
 				</div>
-				<div ng-messages="resourceForm.resourceName.$error" ng-if="resourceForm.resourceName.$dirty">
+				<div ng-messages="resourceForm.resourceName.$error">
 					<p class="help-text text-danger" ng-message="required">A Resource Name is required.</p>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" ng-click="vm.sendOk(vm.resource)" ng-disabled="resourceForm.$invalid">
-			Save Changes
-		</button>
-		<button class="btn btn-warning" ng-click="vm.sendCancel()">
-			Cancel
-		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()" ng-disabled="resourceForm.$invalid">
-			Delete
-		</button>
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendOk(vm.resource)" class="btn btn-success" ng-disabled="resourceForm.$invalid">Save Changes</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendCancel()" class="btn btn-warning">Cancel</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendDelete()" class="btn btn-danger" ng-disabled="resourceForm.$invalid">Delete</button>
+			</div>
+		</div>
 	</div>
 </div>

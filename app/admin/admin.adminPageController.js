@@ -156,7 +156,12 @@
         };
 // new
         function newDeadline(){
-            return modalService.newDeadlineModal();
+            var today = new Date();
+            today.setSeconds(0);
+            var newDeadline = dataService.addDeadline(today);
+            console.log("newDeadline:", newDeadline);
+            editDeadline(newDeadline);
+            //return modalService.newDeadlineModal();
         };
         function newDepartment(){
             return modalService.newDepartmentModal();

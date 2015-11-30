@@ -370,7 +370,7 @@
                         "date": newDate
                     };
                     ConvertedDataset["deadlines"].push(newDateObject);
-                    return getDeadline(newId);
+                    return getDeadlineRaw(newId);
                     // for verification.
                 }
             }
@@ -533,6 +533,12 @@
         * Public Getters
         *
         ----------------------------*/
+
+        function getDeadlineRaw(id){
+            if(angular.isDefined(id)){
+                return _getById(id, "deadlines");
+            }
+        }
 
         function getDeadline(id) {
 

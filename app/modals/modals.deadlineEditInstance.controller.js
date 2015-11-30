@@ -11,8 +11,6 @@
     function deadlineEditInstanceController(utilityService, dataService, $uibModalInstance, deadline, Util) {
         var vm = this;
 
-        vm.addResource              = addResource;
-
         vm.deadline                 = deadline;
 
         vm.getDeadline              = getDeadline;
@@ -27,17 +25,11 @@
         vm.listDepartments          = dataService.listDepartments();
         vm.listResources            = dataService.listResources();
 
-        vm.resourceToAdd            = null;
-        vm.resourceSorter           = resourceSorter;
-
         vm.sendCancel               = sendCancel;
         vm.sendDelete               = sendDelete;
         vm.sendOk                   = sendOk;
 
         vm.toggleCalendar           = toggleCalendar;
-
-        vm.unassignedResourceIds    = unassignedResourceIds;
-        vm.unassignResource         = unassignResource;
 
         vm.deadlineModel            = deadlineModel;
 
@@ -69,15 +61,6 @@
             return dm;
         }
 
-
-
-        function addResource(){
-            if (vm.resourceToAdd){
-                vm.project.resources.push(vm.resourceToAdd);
-            }
-            //vm.unassignedResourceIds = unassignedResourceIds(project.resources);
-        };
-
         function getDeadline(id){
             return dataService.getDeadline(id);
         };
@@ -100,25 +83,12 @@
         };
 
         function sendOk(){
-            $uibModalInstance.close(vm.project);
+            $uibModalInstance.close(vm.deadline);
         };
 
         function toggleCalendar(){
             vm.isCalendarOpen = !vm.isCalendarOpen;
         };
-
-        function unassignedResourceIds(projectResoures){
-            return dataService.listOfUnassignedResourceIds(projectResoures);
-        };
-
-        function unassignResource(resourceIndex){
-            vm.project.resources.splice(resourceIndex, 1);
-        };
-
-        function resourceSorter(resourceId){
-            var resource = getResource(resourceId);
-            return resource.name;
-        }
 
     }
 })();

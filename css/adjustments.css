@@ -31,3 +31,11 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div.modal-body > d
 .sortSelected, .sortSelected:hover{
 	color: rgba(255,255,0,.8);
 }
+.formSpacer{
+	margin-bottom: 8px;
+}
+
+/* Fixes for time input clearables. */
+input[type="time"]::-webkit-clear-button {
+    display: none;
+}

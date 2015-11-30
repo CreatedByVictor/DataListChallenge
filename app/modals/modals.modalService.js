@@ -60,7 +60,6 @@
                 resolve:{
                     deadline:function(){
                         _editIdStorage = newDeadline.id;
-
                         return newDeadline;
                     }
                 }
@@ -69,7 +68,7 @@
             openModal.result.then(
                 function(resultData){
                     if(angular.isDefined(resultData)){
-                          dataService.updateDeadline(resultData.id,resultData);                     
+                          dataService.assignDeadlineDate(resultData.id,new Date(resultData.timestamp));                     
                     }
                      _editIdStorage = null;
                 },
@@ -188,6 +187,7 @@
                     deadline:function(){
                         backup = angular.copy(deadlineData); //make a backup
                         _editIdStorage = deadlineData.id;
+                        console.log("deadlineData:", deadlineData);
                         return deadlineData;
                     },
                 }
@@ -197,7 +197,7 @@
                 function(resultData){
                     //$log.info("Result Data:", resultData);
                     if (angular.isDefined(resultData)){
-                        dataService.updateDeadline(resultData.id, resultData);                         
+                        dataService.assignDeadlineDate(resultData.id, new Date(resultData.timestamp));                         
                     }
                     _editIdStorage = null;
                 },

@@ -18,21 +18,23 @@
 						required = "true">
 					</input>
 				</div>
-				<div ng-messages="departmentForm.departmentName.$error" ng-if="departmentForm.departmentName.$dirty">
+				<div ng-messages="departmentForm.departmentName.$error">
 					<p class="help-text text-danger" ng-message="required">A Department Name is required.</p>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-success" ng-click="vm.sendOk(vm.department)" ng-disabled="departmentForm.$invalid">
-			Save Changes
-		</button>
-		<button class="btn btn-warning" ng-click="vm.sendCancel()">
-			Cancel
-		</button>
-		<button class="btn btn-danger" ng-click="vm.sendDelete()" ng-disabled="departmentForm.$invalid">
-			Delete
-		</button>
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendOk(vm.department)" class="btn btn-success" ng-disabled="departmentForm.$invalid">Save Changes</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendCancel()" class="btn btn-warning">Cancel</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" ng-click="vm.sendDelete()" class="btn btn-danger" ng-disabled="departmentForm.$invalid">Delete</button>
+			</div>
+		</div>
 	</div>
 </div>

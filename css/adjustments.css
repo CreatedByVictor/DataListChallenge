@@ -2,19 +2,13 @@ ul li{
 	list-style-type: none;
 }
 
-.nav, .pagination, .carousel, .panel-title a, th a{ cursor: pointer; }
-
-.useful-link { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a, th a, .useful-link{ cursor: pointer; }
 
 .editCol {
 	width: 64px;
 }
 .idCol {
 	width: 96px;
-}
-
-body > div.modal.fade.ng-isolate-scope.in > div > div > div > div.modal-body > div > div:nth-child(1) > div > div > div > table{
-	margin: 0 auto;
 }
 
 .editing {
@@ -38,4 +32,7 @@ body > div.modal.fade.ng-isolate-scope.in > div > div > div > div.modal-body > d
 /* Fixes for time input clearables. */
 input[type="time"]::-webkit-clear-button {
     display: none;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus{
+	color:white;
 }

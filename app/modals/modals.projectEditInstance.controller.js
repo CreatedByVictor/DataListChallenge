@@ -14,6 +14,8 @@
 
         vm.addResource              = addResource;
 
+        vm.deadlineSorter           = deadlineSorter;
+
         vm.getDeadline              = getDeadline;
         vm.getDepartment            = getDepartment;
         vm.getResource              = getResource;
@@ -99,6 +101,12 @@
         function resourceSorter(resourceId){
             var resource = getResource(resourceId);
             return resource.name;
+        };
+        function deadlineSorter(deadlineObject){
+            // convert the text to a timestamp.
+
+            var timestamp = Date.parse(deadlineObject.date);
+            return timestamp;
         };
 
     }

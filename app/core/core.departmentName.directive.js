@@ -39,9 +39,14 @@
     	var vm = this;
     	
     	var dept = dataService.getDepartment(this.deptId);
-
-    	vm.id  			= this.deptId;
-    	vm.name 		= dept.name;
+        if (dept){
+            vm.id           = this.deptId;
+            vm.name         = dept.name;
+        }
+        else{
+            vm.id = null;
+            vm.name = null;
+        }
 
     	///////////////
 

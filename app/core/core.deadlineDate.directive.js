@@ -39,10 +39,18 @@
     	var vm = this;
     	
     	var deadline = dataService.getDeadline(this.deadlineId);
+    	
+        if (deadline){
+            vm.id  			= this.deadlineId;
+    	   vm.date 		    = deadline.date;
+    	   vm.timestamp 	= deadline.timestamp; 
+        }
+        else{
+            vm.id   = null;
+            vm.date = null;
+            vm.timestamp = null;
+        }
 
-    	vm.id  			= this.deadlineId;
-    	vm.date 		= deadline.date;
-    	vm.timestamp 	= deadline.timestamp;
 
     	///////////////
 

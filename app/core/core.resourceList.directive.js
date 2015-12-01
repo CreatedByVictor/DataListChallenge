@@ -55,7 +55,8 @@
         else if (this.projectId){
             projectResources = dataService.getProject(this.projectId).resources;
         }
-
+        if (projectResources){
+            
     	vm.id  			= this.projectId;
         vm.resources    = projectResources;
 
@@ -63,7 +64,7 @@
         vm.isList       = this.isList;
 
         vm.getResource  = dataService.getResource; 
-
+        }
     	///////////////
 
     }

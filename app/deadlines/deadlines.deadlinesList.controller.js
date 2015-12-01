@@ -38,7 +38,12 @@
 		function projectSortPredicate(projectId){
 			var inputProject = dataService.getProject(projectId);
 			if ($state.is(vm.sortingStateA)){
-				return dataService.getDepartment(inputProject.departmentId).name;
+				if (inputProject.departmentId){
+					return dataService.getDepartment(inputProject.departmentId).name;	
+				}
+				else{
+					return null;
+				}
 			} 
 			else if($state.is(vm.sortingStateB)){ 
 				return -inputProject.resources.length;

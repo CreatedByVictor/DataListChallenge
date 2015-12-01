@@ -187,7 +187,7 @@
                     deadline:function(){
                         backup = angular.copy(deadlineData); //make a backup
                         _editIdStorage = deadlineData.id;
-                        console.log("deadlineData:", deadlineData);
+                        //console.log("deadlineData:", deadlineData);
                         return deadlineData;
                     },
                 }

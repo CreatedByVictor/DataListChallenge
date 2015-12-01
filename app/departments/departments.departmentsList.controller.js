@@ -43,7 +43,9 @@
 
 		function projectSortPredicate(inputProject){
 			if ($state.is(vm.sortingStateA)){
-				return dataService.getDeadline(inputProject.deadlineId).timestamp;
+				if (angular.isDefined(inputProject.deadlineId)){
+					return dataService.getDeadline(inputProject.deadlineId).timestamp;
+				}
 			}
 			else if($state.is(vm.sortingStateB)) { 
 				return -inputProject.resources.length;

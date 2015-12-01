@@ -42,8 +42,11 @@
     	
     	var project = dataService.getProject(this.projectId) || this.projectObject;
 
-    	vm.id  			= this.projectId;
-    	vm.name 		= project.name;
+        if(project){
+            vm.id           = this.projectId;
+            vm.name         = project.name;        
+        }
+
 
     	///////////////
 
